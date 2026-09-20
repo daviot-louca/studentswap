@@ -8,6 +8,7 @@ import {
 } from "./articlePhoto.controller.js";
 
 import authMiddleware from "../../middlewares/auth.middlewares.js";
+import { uploadArticlePhotos } from "../../middlewares/upload.middleware.js";
 
 const router = Router();
 
@@ -25,10 +26,11 @@ router.get(
   articlePhoto,
 );
 
-// Ajouter une photo à un article
+// Ajouter une ou plusieurs photos à un article
 router.post(
   "/article/:articleId",
   authMiddleware,
+  uploadArticlePhotos,
   createArticlePhoto,
 );
 

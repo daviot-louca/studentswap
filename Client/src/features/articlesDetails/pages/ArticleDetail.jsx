@@ -27,6 +27,60 @@ import {
   getArticleOwner,
 } from "../utils/articleDetail.utils";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+function normalizePhotoUrl(photo) {
+  if (!photo) {
+    return null;
+  }
+
+  const rawUrl =
+    typeof photo === "string"
+      ? photo
+      : photo?.url ||
+        photo?.URL ||
+        photo?.photo ||
+        photo?.path ||
+        photo?.src ||
+        null;
+
+  if (!rawUrl) {
+    return null;
+  }
+
+  if (
+    rawUrl.startsWith("http://") ||
+    rawUrl.startsWith("https://") ||
+    rawUrl.startsWith("blob:")
+  ) {
+    return rawUrl;
+  }
+
+  return `${API_URL}${
+    rawUrl.startsWith("/") ? "" : "/"
+  }${rawUrl}`;
+}
+
+function getUploadedArticlePhotos(article) {
+  const possiblePhotos =
+    article?.photos ||
+    article?.Photos ||
+    article?.articlePhotos ||
+    article?.ArticlePhotos ||
+    article?.articlePhoto ||
+    article?.ArticlePhoto ||
+    [];
+
+  if (!Array.isArray(possiblePhotos)) {
+    return [];
+  }
+
+  return possiblePhotos
+    .map(normalizePhotoUrl)
+    .filter(Boolean);
+}
+
 function ArticleDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -36,7 +90,8 @@ function ArticleDetail() {
   const [error, setError] = useState("");
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
+  const [isFavoriteLoading, setIsFavoriteLoading] =
+    useState(false);
 
   const [currentPhoto, setCurrentPhoto] = useState(0);
 
@@ -55,7 +110,9 @@ function ArticleDetail() {
       setCurrentPhoto(0);
 
       try {
-        const { data } = await client.get(`/articles/${id}`);
+        const { data } = await client.get(
+          `/articles/${id}`,
+        );
 
         const loadedArticle =
           data?.article ??
@@ -69,7 +126,9 @@ function ArticleDetail() {
           throw new Error("Article introuvable");
         }
 
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         setArticle(loadedArticle);
 
@@ -80,7 +139,9 @@ function ArticleDetail() {
             setIsFavorite(Boolean(favorite));
           }
         } catch (favoriteError) {
-          if (favoriteError.response?.status !== 404) {
+          if (
+            favoriteError.response?.status !== 404
+          ) {
             console.error(
               "Erreur récupération favori :",
               favoriteError,
@@ -92,7 +153,9 @@ function ArticleDetail() {
           }
         }
       } catch (requestError) {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         console.error(
           "Erreur récupération article :",
@@ -101,9 +164,9 @@ function ArticleDetail() {
 
         setError(
           requestError.response?.data?.message ||
-          requestError.response?.data?.error ||
-          requestError.message ||
-          "Impossible de récupérer cet article.",
+            requestError.response?.data?.error ||
+            requestError.message ||
+            "Impossible de récupérer cet article.",
         );
       } finally {
         if (!cancelled) {
@@ -120,7 +183,9 @@ function ArticleDetail() {
   }, [id]);
 
   const handleFavorite = async () => {
-    if (!id || isFavoriteLoading) return;
+    if (!id || isFavoriteLoading) {
+      return;
+    }
 
     setIsFavoriteLoading(true);
 
@@ -142,26 +207,6 @@ function ArticleDetail() {
     }
   };
 
-  const handlePreviousPhoto = () => {
-    const photos = getArticlePhotos(article);
-
-    if (photos.length <= 1) return;
-
-    setCurrentPhoto(
-      (currentPhoto - 1 + photos.length) % photos.length,
-    );
-  };
-
-  const handleNextPhoto = () => {
-    const photos = getArticlePhotos(article);
-
-    if (photos.length <= 1) return;
-
-    setCurrentPhoto(
-      (currentPhoto + 1) % photos.length,
-    );
-  };
-
   if (isLoading) {
     return <ArticleDetailLoading />;
   }
@@ -175,15 +220,48 @@ function ArticleDetail() {
     );
   }
 
-  const photoUrls = getArticlePhotos(article);
+  const utilityPhotoUrls =
+    getArticlePhotos(article);
+
+  const uploadedPhotoUrls =
+    getUploadedArticlePhotos(article);
+
+  const photoUrls =
+    uploadedPhotoUrls.length > 0
+      ? uploadedPhotoUrls
+      : utilityPhotoUrls;
 
   const title = getArticleTitle(article);
-  const description = getArticleDescription(article);
-  const category = getArticleCategory(article);
-  const subCategory = getArticleSubCategory(article);
+  const description =
+    getArticleDescription(article);
+  const category =
+    getArticleCategory(article);
+  const subCategory =
+    getArticleSubCategory(article);
   const state = getArticleState(article);
   const city = getArticleCity(article);
   const owner = getArticleOwner(article);
+
+  const handlePreviousPhoto = () => {
+    if (photoUrls.length <= 1) {
+      return;
+    }
+
+    setCurrentPhoto(
+      (currentPhoto - 1 + photoUrls.length) %
+        photoUrls.length,
+    );
+  };
+
+  const handleNextPhoto = () => {
+    if (photoUrls.length <= 1) {
+      return;
+    }
+
+    setCurrentPhoto(
+      (currentPhoto + 1) % photoUrls.length,
+    );
+  };
 
   return (
     <main className="min-h-screen bg-background pb-28 text-text">
@@ -215,13 +293,15 @@ function ArticleDetail() {
             city={city}
           />
         </section>
+
         <ArticleDetailActions
           onProposal={() =>
             navigate(`/articles/${id}/proposer`, {
               state: {
                 article,
               },
-            })}
+            })
+          }
         />
       </div>
     </main>

@@ -5,6 +5,57 @@ import {
   removeFavorite,
 } from "../../favorites/api/favorites.api";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+function getPhotoUrl(photo) {
+  if (!photo) {
+    return null;
+  }
+
+  const rawUrl =
+    typeof photo === "string"
+      ? photo
+      : photo?.url ||
+        photo?.URL ||
+        photo?.photo ||
+        photo?.path ||
+        photo?.src ||
+        null;
+
+  if (!rawUrl) {
+    return null;
+  }
+
+  if (
+    rawUrl.startsWith("http://") ||
+    rawUrl.startsWith("https://") ||
+    rawUrl.startsWith("blob:")
+  ) {
+    return rawUrl;
+  }
+
+  return `${API_URL}${rawUrl.startsWith("/") ? "" : "/"}${rawUrl}`;
+}
+
+function getArticlePhotos(article) {
+  const photos =
+    article?.photos ||
+    article?.Photos ||
+    article?.articlePhotos ||
+    article?.ArticlePhotos ||
+    article?.articlePhoto ||
+    article?.ArticlePhoto ||
+    [];
+
+  if (!Array.isArray(photos)) {
+    return [];
+  }
+
+  return photos
+    .map((photo) => getPhotoUrl(photo))
+    .filter(Boolean);
+}
+
 function ArticleCard({ article }) {
   const data = article;
   const navigate = useNavigate();
@@ -19,6 +70,13 @@ function ArticleCard({ article }) {
   );
 
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
+
+  const photos = getArticlePhotos(data);
+
+  const imageUrl =
+    photos[0] ||
+    getPhotoUrl(data?.image) ||
+    getPhotoUrl(data?.photo);
 
   const handleFavorite = async (event) => {
     event?.stopPropagation();
@@ -56,19 +114,21 @@ function ArticleCard({ article }) {
       return;
     }
 
-    console.log("Ouverture de l'article :", articleId);
-
     navigate(`/articles/${articleId}`);
   };
 
   return (
     <article className="relative w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-100">
       <div className="relative aspect-4/5 overflow-hidden bg-gray-100">
-        {data?.image ? (
+        {imageUrl ? (
           <img
-            src={data.image}
+            src={imageUrl}
             alt={data?.titre || "Article"}
             className="h-full w-full object-cover"
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+            }}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

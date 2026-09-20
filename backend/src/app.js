@@ -2,7 +2,7 @@
 import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-
+import path from "path";
 import corsMiddleware from "./config/cors.js";
 //import des routes
 import routes from "./routes/index.routes.js";
@@ -30,6 +30,26 @@ const apiLimiter = rateLimit({
   },
 });
 
+//upload les photos
+app.use(
+  "/uploads",
+  (req, res, next) => {
+    res.header(
+      "Access-Control-Allow-Origin",
+      "http://localhost:5173",
+    );
+
+    res.header(
+      "Cross-Origin-Resource-Policy",
+      "cross-origin",
+    );
+
+    next();
+  },
+  express.static(
+    path.resolve(process.cwd(), "uploads"),
+  ),
+);
 app.use("/api", apiLimiter);
 
 app.use(

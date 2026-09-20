@@ -113,8 +113,8 @@ function CreationArticle() {
 
         setError(
           requestError.response?.data?.message ||
-            requestError.response?.data?.error ||
-            "Impossible de charger les données du formulaire.",
+          requestError.response?.data?.error ||
+          "Impossible de charger les données du formulaire.",
         );
       } finally {
         if (!cancelled) {
@@ -231,21 +231,63 @@ function CreationArticle() {
         response.data?.data ??
         null;
 
+      if (!createdArticle?.Id_articles) {
+        throw new Error(
+          "L'article a été créé mais son identifiant est introuvable.",
+        );
+      }
+
+      if (images.length > 0) {
+        const formData = new FormData();
+
+        images.forEach((image) => {
+          if (image?.file) {
+            formData.append(
+              "photos",
+              image.file,
+            );
+          }
+        });
+
+        try {
+          await client.post(
+            `/articlePhoto/article/${createdArticle.Id_articles}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            },
+          );
+        } catch (photoError) {
+          console.error(
+            "Article créé mais erreur upload photos :",
+            photoError,
+          );
+
+          setError(
+            "L'article a été créé, mais les photos n'ont pas pu être envoyées.",
+          );
+
+          setTimeout(() => {
+            navigate(
+              `/articles/${createdArticle.Id_articles}`,
+            );
+          }, 1000);
+
+          return;
+        }
+      }
+
       setSuccess(
         "Votre annonce a été créée avec succès.",
       );
 
-      if (createdArticle?.Id_articles) {
-        setTimeout(() => {
-          navigate(
-            `/articles/${createdArticle.Id_articles}`,
-          );
-        }, 500);
-      } else {
-        setTimeout(() => {
-          navigate("/");
-        }, 500);
-      }
+      setTimeout(() => {
+        navigate(
+          `/articles/${createdArticle.Id_articles}`,
+        );
+      }, 500);
     } catch (requestError) {
       console.error(
         "Erreur création article :",
@@ -257,18 +299,19 @@ function CreationArticle() {
 
       const detailMessage = Array.isArray(details)
         ? details
-            .map(
-              (detail) => detail?.message,
-            )
-            .filter(Boolean)
-            .join(" ")
+          .map(
+            (detail) => detail?.message,
+          )
+          .filter(Boolean)
+          .join(" ")
         : "";
 
       setError(
         detailMessage ||
-          requestError.response?.data?.message ||
-          requestError.response?.data?.error ||
-          "Impossible de créer l'annonce.",
+        requestError.response?.data?.message ||
+        requestError.response?.data?.error ||
+        requestError.message ||
+        "Impossible de créer l'annonce.",
       );
     } finally {
       setIsSubmitting(false);
