@@ -14,6 +14,7 @@ export const registerController = async (req, res) => {
       pseudo,
       email,
       password,
+      confirmPassword,
       Id_villes,
     } = req.body;
 
@@ -23,6 +24,7 @@ export const registerController = async (req, res) => {
       pseudo,
       email,
       password,
+      confirmPassword,
       Id_villes,
     });
 
