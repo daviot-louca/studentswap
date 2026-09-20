@@ -17,6 +17,7 @@ import conversations from "../modules/conversations/conversations.routes.js";
 import reports from "../modules/reports/reports.routes.js";
 import notifications from "../modules/notifications/notifications.routes.js";
 import notations from "../modules/notations/notations.routes.js";
+import ArticlesVus from "../modules/ArticlesVus/articlesVus.routes.js";
 const router = Router();
 
 router.get("/", (req, res) => {
@@ -36,7 +37,7 @@ router.use("/articles",article)
 router.use("/tags",tags)
 router.use("/articlePhoto",articlePhoto)
 router.use("/favories",favories)
-router.use("/propositionTroc",propositionTroc)
+router.use("/propositions",propositionTroc)
 router.use("/regions",regions)
 router.use("/villes",villes)
 router.use("/roles",roles)
@@ -44,4 +45,5 @@ router.use("/conversations", conversations);
 router.use("/reports", reports);
 router.use("/notifications",notifications)
 router.use("/notations",notations)
+router.use("/articlesVus",ArticlesVus)
 export default router;

@@ -1,0 +1,201 @@
+"filename", "language", "JavaScript", "JavaScript JSX", "Markdown", "JSON", "HTML", "XML", "PostCSS", "comment", "blank", "total"
+"/Users/loucadaviot/Desktop/studentswap/Client/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/eslint.config.js", "JavaScript", 20, 0, 0, 0, 0, 0, 0, 0, 2, 22
+"/Users/loucadaviot/Desktop/studentswap/Client/index.html", "HTML", 0, 0, 0, 0, 13, 0, 0, 0, 1, 14
+"/Users/loucadaviot/Desktop/studentswap/Client/package-lock.json", "JSON", 0, 0, 0, 3355, 0, 0, 0, 0, 1, 3356
+"/Users/loucadaviot/Desktop/studentswap/Client/package.json", "JSON", 0, 0, 0, 31, 0, 0, 0, 0, 1, 32
+"/Users/loucadaviot/Desktop/studentswap/Client/public/favicon.svg", "XML", 0, 0, 0, 0, 0, 1, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/public/icons.svg", "XML", 0, 0, 0, 0, 0, 24, 0, 0, 1, 25
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/AdminHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/AdminSidebar.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/DataTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/StatCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/layout/AdminLayout.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/pages/AdminLoginPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/pages/AdminNotFoundPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/App.jsx", "JavaScript JSX", 0, 13, 0, 0, 0, 0, 0, 0, 2, 15
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/index.css", "PostCSS", 0, 0, 0, 0, 0, 0, 18, 2, 3, 23
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/main.jsx", "JavaScript JSX", 0, 11, 0, 0, 0, 0, 0, 0, 1, 12
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/AuthContext.jsx", "JavaScript JSX", 0, 2, 0, 0, 0, 0, 0, 0, 1, 3
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/AuthProvider.jsx", "JavaScript JSX", 0, 61, 0, 0, 0, 0, 0, 0, 11, 72
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/SocketProvider.jsx", "JavaScript JSX", 0, 9, 0, 0, 0, 0, 0, 0, 2, 11
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/useAuth.js", "JavaScript", 9, 0, 0, 0, 0, 0, 0, 0, 3, 12
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/AdminRoutes.jsx", "JavaScript JSX", 0, 16, 0, 0, 0, 0, 0, 0, 3, 19
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/Index.jsx", "JavaScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 3, 17
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/UserRoutes.jsx", "JavaScript JSX", 0, 21, 0, 0, 0, 0, 0, 2, 3, 26
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/api/articles.api.js", "JavaScript", 19, 0, 0, 0, 0, 0, 0, 0, 7, 26
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/ArticleCard.jsx", "JavaScript JSX", 0, 69, 0, 0, 0, 0, 0, 5, 10, 84
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/HomeFilter.jsx", "JavaScript JSX", 0, 21, 0, 0, 0, 0, 0, 0, 3, 24
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/SwipeActions.jsx", "JavaScript JSX", 0, 77, 0, 0, 0, 0, 0, 3, 3, 83
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/SwipeStack.jsx", "JavaScript JSX", 0, 95, 0, 0, 0, 0, 0, 0, 24, 119
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/pages/Home.jsx", "JavaScript JSX", 0, 75, 0, 0, 0, 0, 0, 0, 17, 92
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/auth/api/auth.api.js", "JavaScript", 9, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/auth/pages/Login.jsx", "JavaScript JSX", 0, 148, 0, 0, 0, 0, 0, 4, 29, 181
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/auth/pages/Register.jsx", "JavaScript JSX", 0, 282, 0, 0, 0, 0, 0, 0, 39, 321
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/villes/api/villes.api.js", "JavaScript", 5, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/constants.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/formatDate.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/formatError.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/hooks/useAuth.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/hooks/useDebounce.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/api.js", "JavaScript", 15, 0, 0, 0, 0, 0, 0, 0, 5, 20
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/socket.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/storage.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/components/UserHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/layout/UserLayout.jsx", "JavaScript JSX", 0, 144, 0, 0, 0, 0, 0, 0, 8, 152
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/pages/NotFoundPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/vite.config.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 1, 1, 8
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/001-create-regions.cjs", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 5, 35
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/002-create-roles.cjs", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/002-create-villes.cjs", "JavaScript", 40, 0, 0, 0, 0, 0, 0, 0, 8, 48
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/003-create-users.cjs", "JavaScript", 68, 0, 0, 0, 0, 0, 0, 0, 11, 79
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/004-create-usersPhotos.cjs", "JavaScript", 40, 0, 0, 0, 0, 0, 0, 0, 8, 48
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/005-create-categories.cjs", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/006-create-subCategories.cjs", "JavaScript", 40, 0, 0, 0, 0, 0, 0, 0, 8, 48
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/007-create-etatArticle.cjs", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/008-create-articles.cjs", "JavaScript", 64, 0, 0, 0, 0, 0, 0, 0, 9, 73
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/009-create-tags.cjs", "JavaScript", 41, 0, 0, 0, 0, 0, 0, 0, 6, 47
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/010-create-favorites.cjs", "JavaScript", 51, 0, 0, 0, 0, 0, 0, 0, 11, 62
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/011-create-conversations.cjs", "JavaScript", 26, 0, 0, 0, 0, 0, 0, 0, 4, 30
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/012-create-conversationsParticipants.cjs", "JavaScript", 51, 0, 0, 0, 0, 0, 0, 0, 7, 58
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/013-create-notifications.cjs", "JavaScript", 49, 0, 0, 0, 0, 0, 0, 0, 8, 57
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/014-create-notation.cjs", "JavaScript", 48, 0, 0, 0, 0, 0, 0, 0, 7, 55
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/015-create-reports.cjs", "JavaScript", 54, 0, 0, 0, 0, 0, 0, 0, 8, 62
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/016-create-photosArticle.cjs", "JavaScript", 45, 0, 0, 0, 0, 0, 0, 0, 7, 52
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/017-create-propositions-troc.cjs", "JavaScript", 55, 0, 0, 0, 0, 0, 0, 0, 8, 63
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/018-create-messages.cjs", "JavaScript", 53, 0, 0, 0, 0, 0, 0, 0, 10, 63
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/001-regions.cjs", "JavaScript", 29, 0, 0, 0, 0, 0, 0, 0, 3, 32
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/002-villes.cjs", "JavaScript", 39, 0, 0, 0, 0, 0, 0, 0, 3, 42
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/003-categories.cjs", "JavaScript", 114, 0, 0, 0, 0, 0, 0, 0, 5, 119
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/004-roles.cjs", "JavaScript", 23, 0, 0, 0, 0, 0, 0, 0, 3, 26
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/005-users.cjs", "JavaScript", 49, 0, 0, 0, 0, 0, 0, 0, 4, 53
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/006-articles.cjs", "JavaScript", 86, 0, 0, 0, 0, 0, 0, 0, 4, 90
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/007-relations.cjs", "JavaScript", 92, 0, 0, 0, 0, 0, 0, 6, 8, 106
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/008-signalements.cjs", "JavaScript", 20, 0, 0, 0, 0, 0, 0, 0, 3, 23
+"/Users/loucadaviot/Desktop/studentswap/backend/package-lock.json", "JSON", 0, 0, 0, 4804, 0, 0, 0, 0, 1, 4805
+"/Users/loucadaviot/Desktop/studentswap/backend/package.json", "JSON", 0, 0, 0, 41, 0, 0, 0, 0, 1, 42
+"/Users/loucadaviot/Desktop/studentswap/backend/src/app.js", "JavaScript", 44, 0, 0, 0, 0, 0, 0, 7, 11, 62
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/conversation.socket.js", "JavaScript", 94, 0, 0, 0, 0, 0, 0, 9, 19, 122
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/socket.auth.js", "JavaScript", 20, 0, 0, 0, 0, 0, 0, 0, 6, 26
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/socket.js", "JavaScript", 25, 0, 0, 0, 0, 0, 0, 12, 8, 45
+"/Users/loucadaviot/Desktop/studentswap/backend/src/config/config.cjs", "JavaScript", 28, 0, 0, 0, 0, 0, 0, 0, 4, 32
+"/Users/loucadaviot/Desktop/studentswap/backend/src/config/cors.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 2, 8, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/config/database.js", "JavaScript", 29, 0, 0, 0, 0, 0, 0, 1, 5, 35
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/admin.middlewares.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 3, 19
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/auth.middlewares.js", "JavaScript", 44, 0, 0, 0, 0, 0, 0, 0, 11, 55
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/error.middlewares.js", "JavaScript", 12, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/notFound.middlewares.js", "JavaScript", 7, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/validation.middlewares.js", "JavaScript", 17, 0, 0, 0, 0, 0, 0, 0, 3, 20
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Article.js", "JavaScript", 46, 0, 0, 0, 0, 0, 0, 0, 9, 55
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/ArticlePhoto.js", "JavaScript", 39, 0, 0, 0, 0, 0, 0, 0, 7, 46
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Category.js", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Conversation.js", "JavaScript", 26, 0, 0, 0, 0, 0, 0, 0, 4, 30
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/ConversationParticipant.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/EtatArticle.js", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Favorite.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Messages.js", "JavaScript", 38, 0, 0, 0, 0, 0, 0, 0, 7, 45
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Notation.js", "JavaScript", 42, 0, 0, 0, 0, 0, 0, 0, 7, 49
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Notification.js", "JavaScript", 43, 0, 0, 0, 0, 0, 0, 0, 8, 51
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/PropositionTroc.js", "JavaScript", 43, 0, 0, 0, 0, 0, 0, 0, 8, 51
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Region.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 5, 35
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Report.js", "JavaScript", 42, 0, 0, 0, 0, 0, 0, 0, 8, 50
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Role.js", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/SubCategory.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Tag.js", "JavaScript", 35, 0, 0, 0, 0, 0, 0, 0, 6, 41
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/User.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 11, 67
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/UserPhoto.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Ville.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/index.js", "JavaScript", 216, 0, 0, 0, 0, 0, 0, 19, 56, 291
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.controller.js", "JavaScript", 137, 0, 0, 0, 0, 0, 0, 6, 24, 167
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.routes.js", "JavaScript", 25, 0, 0, 0, 0, 0, 0, 0, 3, 28
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.schema.js", "JavaScript", 57, 0, 0, 0, 0, 0, 0, 2, 10, 69
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.service.js", "JavaScript", 387, 0, 0, 0, 0, 0, 0, 54, 132, 573
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.controller.js", "JavaScript", 97, 0, 0, 0, 0, 0, 0, 4, 16, 117
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.routes.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 4, 8, 42
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.schema.js", "JavaScript", 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.service.js", "JavaScript", 100, 0, 0, 0, 0, 0, 0, 6, 18, 124
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/auth/auth.controller.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 4, 19, 130
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/auth/auth.routes.js", "JavaScript", 25, 0, 0, 0, 0, 0, 0, 0, 10, 35
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/auth/auth.schemas.js", "JavaScript", 54, 0, 0, 0, 0, 0, 0, 0, 10, 64
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/auth/auth.service.js", "JavaScript", 187, 0, 0, 0, 0, 0, 0, 0, 32, 219
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/categories/categories.controller.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 5, 20, 132
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/categories/categories.routes.js", "JavaScript", 22, 0, 0, 0, 0, 0, 0, 5, 10, 37
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/categories/categories.schema.js", "JavaScript", 15, 0, 0, 0, 0, 0, 0, 2, 2, 19
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/categories/categories.service.js", "JavaScript", 88, 0, 0, 0, 0, 0, 0, 5, 20, 113
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.controller.js", "JavaScript", 61, 0, 0, 0, 0, 0, 0, 0, 8, 69
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.routes.js", "JavaScript", 37, 0, 0, 0, 0, 0, 0, 12, 9, 58
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.schema.js", "JavaScript", 17, 0, 0, 0, 0, 0, 0, 0, 3, 20
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.service.js", "JavaScript", 162, 0, 0, 0, 0, 0, 0, 0, 36, 198
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/etatArticle/etatArticle.controller.js", "JavaScript", 109, 0, 0, 0, 0, 0, 0, 5, 20, 134
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/etatArticle/etatArticle.routes.js", "JavaScript", 34, 0, 0, 0, 0, 0, 0, 0, 2, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/etatArticle/etatArticle.schema.js", "JavaScript", 15, 0, 0, 0, 0, 0, 0, 2, 2, 19
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/etatArticle/etatArticle.service.js", "JavaScript", 88, 0, 0, 0, 0, 0, 0, 5, 20, 113
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/favoris/fav.controller.js", "JavaScript", 92, 0, 0, 0, 0, 0, 0, 4, 16, 112
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/favoris/fav.routes.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 4, 8, 42
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/favoris/fav.service.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 4, 13, 124
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.controller.js", "JavaScript", 53, 0, 0, 0, 0, 0, 0, 0, 8, 61
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.routes.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 7, 37
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.schema.js", "JavaScript", 9, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.service.js", "JavaScript", 82, 0, 0, 0, 0, 0, 0, 0, 15, 97
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notifications/notifications.controller.js", "JavaScript", 73, 0, 0, 0, 0, 0, 0, 0, 10, 83
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notifications/notifications.routes.js", "JavaScript", 41, 0, 0, 0, 0, 0, 0, 15, 8, 64
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notifications/notifications.schema.js", "JavaScript", 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/notifications/notifications.service.js", "JavaScript", 63, 0, 0, 0, 0, 0, 0, 0, 12, 75
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.controller.js", "JavaScript", 134, 0, 0, 0, 0, 0, 0, 5, 20, 159
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.routes.js", "JavaScript", 31, 0, 0, 0, 0, 0, 0, 5, 10, 46
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.schema.js", "JavaScript", 14, 0, 0, 0, 0, 0, 0, 2, 2, 18
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.service.js", "JavaScript", 229, 0, 0, 0, 0, 0, 0, 10, 28, 267
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.controller.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 5, 20, 132
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.routes.js", "JavaScript", 47, 0, 0, 0, 0, 0, 0, 5, 9, 61
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.schema.js", "JavaScript", 14, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.service.js", "JavaScript", 125, 0, 0, 0, 0, 0, 0, 5, 19, 149
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/reports/reports.controller.js", "JavaScript", 55, 0, 0, 0, 0, 0, 0, 0, 8, 63
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/reports/reports.routes.js", "JavaScript", 42, 0, 0, 0, 0, 0, 0, 16, 9, 67
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/reports/reports.schema.js", "JavaScript", 12, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/reports/reports.service.js", "JavaScript", 100, 0, 0, 0, 0, 0, 0, 0, 16, 116
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.controller.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 5, 20, 132
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.routes.js", "JavaScript", 47, 0, 0, 0, 0, 0, 0, 5, 11, 63
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.schema.js", "JavaScript", 14, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.service.js", "JavaScript", 110, 0, 0, 0, 0, 0, 0, 5, 19, 134
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/subCategories/subCategories.controller.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 5, 20, 132
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/subCategories/subCategories.routes.js", "JavaScript", 19, 0, 0, 0, 0, 0, 0, 5, 9, 33
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/subCategories/subCategories.schema.js", "JavaScript", 23, 0, 0, 0, 0, 0, 0, 2, 4, 29
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/subCategories/subCategories.service.js", "JavaScript", 149, 0, 0, 0, 0, 0, 0, 5, 27, 181
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/tags/tags.controller.js", "JavaScript", 132, 0, 0, 0, 0, 0, 0, 6, 24, 162
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/tags/tags.routes.js", "JavaScript", 46, 0, 0, 0, 0, 0, 0, 6, 11, 63
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/tags/tags.schema.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 2, 18
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/tags/tags.service.js", "JavaScript", 159, 0, 0, 0, 0, 0, 0, 6, 25, 190
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.controller.js", "JavaScript", 95, 0, 0, 0, 0, 0, 0, 4, 16, 115
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.routes.js", "JavaScript", 33, 0, 0, 0, 0, 0, 0, 4, 7, 44
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.schema.js", "JavaScript", 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.service.js", "JavaScript", 72, 0, 0, 0, 0, 0, 0, 4, 12, 88
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/users/user.controller.js", "JavaScript", 86, 0, 0, 0, 0, 0, 0, 5, 16, 107
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/users/user.schema.js", "JavaScript", 27, 0, 0, 0, 0, 0, 0, 1, 5, 33
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/users/user.service.js", "JavaScript", 133, 0, 0, 0, 0, 0, 0, 0, 22, 155
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/users/users.routes.js", "JavaScript", 17, 0, 0, 0, 0, 0, 0, 4, 8, 29
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.controller.js", "JavaScript", 132, 0, 0, 0, 0, 0, 0, 6, 24, 162
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.routes.js", "JavaScript", 52, 0, 0, 0, 0, 0, 0, 6, 12, 70
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.schema.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 2, 18
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.service.js", "JavaScript", 172, 0, 0, 0, 0, 0, 0, 6, 27, 205
+"/Users/loucadaviot/Desktop/studentswap/backend/src/routes/index.routes.js", "JavaScript", 45, 0, 0, 0, 0, 0, 0, 0, 2, 47
+"/Users/loucadaviot/Desktop/studentswap/backend/src/server.js", "JavaScript", 27, 0, 0, 0, 0, 0, 0, 0, 9, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/src/utils/pagination.utils.js", "JavaScript", 29, 0, 0, 0, 0, 0, 0, 0, 4, 33
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/articlePhoto.test.js", "JavaScript", 12, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/articles.test.js", "JavaScript", 107, 0, 0, 0, 0, 0, 0, 0, 28, 135
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/auth.test.js", "JavaScript", 82, 0, 0, 0, 0, 0, 0, 0, 16, 98
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/categories.test.js", "JavaScript", 39, 0, 0, 0, 0, 0, 0, 0, 11, 50
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/conversation.test.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 18, 74
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/etatArticle.test.js", "JavaScript", 38, 0, 0, 0, 0, 0, 0, 0, 11, 49
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/favories.test.js", "JavaScript", 35, 0, 0, 0, 0, 0, 0, 0, 13, 48
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/notations.test.js", "JavaScript", 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/notifications.test.js", "JavaScript", 27, 0, 0, 0, 0, 0, 0, 0, 7, 34
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/propositionTroc.test.js", "JavaScript", 41, 0, 0, 0, 0, 0, 0, 0, 12, 53
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/regions.test.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 9, 39
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/reports.test.js", "JavaScript", 40, 0, 0, 0, 0, 0, 0, 0, 12, 52
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/roles.test.js", "JavaScript", 27, 0, 0, 0, 0, 0, 0, 0, 7, 34
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/subcategories.test.js", "JavaScript", 36, 0, 0, 0, 0, 0, 0, 0, 11, 47
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/tags.test.js", "JavaScript", 38, 0, 0, 0, 0, 0, 0, 0, 11, 49
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/userPhotos.test.js", "JavaScript", 29, 0, 0, 0, 0, 0, 0, 0, 7, 36
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/users.test.js", "JavaScript", 82, 0, 0, 0, 0, 0, 0, 0, 23, 105
+"/Users/loucadaviot/Desktop/studentswap/backend/tests/villes.test.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 9, 39
+"Total", "-", 8757, 1058, 0, 8231, 13, 25, 18, 364, 1875, 20341

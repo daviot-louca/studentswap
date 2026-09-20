@@ -8,7 +8,7 @@ import SubCategory from "../../models/SubCategory.js";
 import Category from "../../models/Category.js";
 import EtatArticle from "../../models/EtatArticle.js";
 import Tag from "../../models/Tag.js";
-
+import ArticlesVus from "../../models/ArticlesVus.js";
 import {
   getPagination,
   getPaginationResult,
@@ -566,6 +566,90 @@ export const deleteArticleService = async (id, userId) => {
     };
   } catch (error) {
     console.error("Erreur suppression article :", error);
+
+    throw error;
+  }
+};
+
+export const getSwipeArticlesService = async (userId) => {
+  try {
+    const articlesVus = await ArticlesVus.findAll({
+      where: {
+        Id_users: userId,
+      },
+      attributes: ["Id_articles"],
+    });
+
+    const articlesVusIds = articlesVus.map(
+      (articleVu) => articleVu.Id_articles,
+    );
+
+    const where = {};
+
+    if (articlesVusIds.length > 0) {
+      where.Id_articles = {
+        [Op.notIn]: articlesVusIds,
+      };
+    }
+
+    const articles = await Article.findAll({
+      where,
+      order: [["created_at", "DESC"]],
+
+      include: [
+        {
+          model: User,
+          as: "user",
+
+          attributes: ["Id_users", "pseudo", "prenom", "nom"],
+
+          include: [
+            {
+              model: Ville,
+              as: "ville",
+
+              attributes: ["Id_villes", "nom"],
+
+              include: [
+                {
+                  model: Region,
+                  as: "region",
+
+                  attributes: ["Id_regions", "nom"],
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          model: SubCategory,
+          as: "subCategory",
+
+          attributes: ["Id_subCategories", "nom"],
+
+          include: [
+            {
+              model: Category,
+              as: "category",
+
+              attributes: ["Id_categories", "nom"],
+            },
+          ],
+        },
+
+        {
+          model: EtatArticle,
+          as: "etat",
+
+          attributes: ["Id_etatArticle", "nom"],
+        },
+      ],
+    });
+
+    return articles;
+  } catch (error) {
+    console.error("Erreur récupération articles pour le swipe :", error);
 
     throw error;
   }

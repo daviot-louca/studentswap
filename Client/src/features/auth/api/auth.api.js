@@ -6,6 +6,11 @@ export async function register(userData) {
 }
 
 export async function login(credentials) {
-  const { data } = await client.post("/auth/login", credentials);
-  return data;
+  try {
+    const { data } = await client.post("/auth/login", credentials);
+    return data;
+  } catch (error) {
+    console.error("Erreur login API :", error.response?.data);
+    throw error;
+  }
 }

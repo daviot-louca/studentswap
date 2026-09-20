@@ -3,6 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { login as loginRequest } from "../api/auth.api";
 import { useAuth } from "../../../app/providers/useAuth";
 
+const TOKEN_KEY = "studentswap_token";
+const USER_KEY = "studentswap_user";
+const AUTH_KEY = "studentswap_auth";
+
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -48,10 +52,29 @@ function Login() {
         throw new Error("Le serveur n'a pas retourné de token.");
       }
 
-      login(data.token, data.user ?? null);
+      const user = data.user ?? null;
+
+      // Stockage du token
+      localStorage.setItem(TOKEN_KEY, data.token);
+
+      // Stockage des informations utilisateur
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+
+      // Stockage de la session complète
+      localStorage.setItem(
+        AUTH_KEY,
+        JSON.stringify({
+          token: data.token,
+          user,
+        }),
+      );
+
+      // Mise à jour du contexte d'authentification
+      login(data.token, user);
+
       navigate("/");
     } catch (error) {
-      console.error(error);
+      console.error("Erreur de connexion :", error);
 
       setError(
         error.response?.data?.message ||

@@ -28,7 +28,7 @@ export const getFavoriteService = async (
   userId,
 ) => {
   try {
-    const favorite = await Favorite.findOne({
+    return await Favorite.findOne({
       where: {
         Id_users: userId,
         Id_articles: articleId,
@@ -40,14 +40,6 @@ export const getFavoriteService = async (
         },
       ],
     });
-
-    if (!favorite) {
-      const error = new Error("Favori introuvable");
-      error.statusCode = 404;
-      throw error;
-    }
-
-    return favorite;
   } catch (error) {
     console.error("Erreur récupération favori :", error);
     throw error;

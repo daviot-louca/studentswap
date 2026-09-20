@@ -9,7 +9,7 @@ module.exports = {
         Id_articles: "90000000-0000-4000-8000-000000000001",
         titre: "Chaise de bureau",
         description: "Chaise de bureau confortable en très bon état.",
-        Id_users: "80000000-0000-4000-8000-000000000001",
+        Id_users: "80000000-0000-4000-8000-000000000002",
         Id_subCategories: "60000000-0000-4000-8000-000000000001",
         Id_etatArticle: "70000000-0000-4000-8000-000000000002",
         created_at: now,

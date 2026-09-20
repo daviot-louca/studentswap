@@ -1,4 +1,4 @@
-// là c'est les relations entre les tables mais je pense que tu connais déjà 
+// là c'est les relations entre les tables mais je pense que tu connais déjà
 import Region from "./Region.js";
 import Ville from "./Ville.js";
 import User from "./User.js";
@@ -9,6 +9,7 @@ import EtatArticle from "./EtatArticle.js";
 import Article from "./Article.js";
 import Tag from "./Tag.js";
 import Favorite from "./Favorite.js";
+import ArticlesVus from "./ArticlesVus.js";
 import Conversation from "./Conversation.js";
 import ConversationParticipant from "./ConversationParticipant.js";
 import Notification from "./Notification.js";
@@ -30,8 +31,7 @@ Ville.belongsTo(Region, {
   as: "region",
 });
 
-//ville => user
-
+// ville => user
 Ville.hasMany(User, {
   foreignKey: "Id_villes",
   as: "users",
@@ -42,7 +42,7 @@ User.belongsTo(Ville, {
   as: "ville",
 });
 
-//user=> photos profil
+// user => photos profil
 User.hasMany(UserPhoto, {
   foreignKey: "Id_users",
   as: "photos",
@@ -65,7 +65,6 @@ SubCategory.belongsTo(Category, {
 });
 
 // sous category => tag
-
 SubCategory.hasMany(Tag, {
   foreignKey: "Id_subCategories",
   as: "tags",
@@ -76,8 +75,7 @@ Tag.belongsTo(SubCategory, {
   as: "subCategory",
 });
 
-//user => article
-
+// user => article
 User.hasMany(Article, {
   foreignKey: "Id_users",
   as: "articles",
@@ -88,8 +86,7 @@ Article.belongsTo(User, {
   as: "user",
 });
 
-//sous categ => article
-
+// sous categ => article
 SubCategory.hasMany(Article, {
   foreignKey: "Id_subCategories",
   as: "articles",
@@ -100,8 +97,7 @@ Article.belongsTo(SubCategory, {
   as: "subCategory",
 });
 
-//etat=> article
-
+// etat => article
 EtatArticle.hasMany(Article, {
   foreignKey: "Id_etatArticle",
   as: "articles",
@@ -112,7 +108,7 @@ Article.belongsTo(EtatArticle, {
   as: "etat",
 });
 
-//article => photos des articles
+// article => photos des articles
 Article.hasMany(ArticlePhoto, {
   foreignKey: "Id_articles",
   as: "photos",
@@ -123,8 +119,7 @@ ArticlePhoto.belongsTo(Article, {
   as: "article",
 });
 
-//user <=> favoris <=> Article
-
+// user <=> favoris <=> Article
 User.hasMany(Favorite, {
   foreignKey: "Id_users",
   as: "favorites",
@@ -145,8 +140,28 @@ Favorite.belongsTo(Article, {
   as: "article",
 });
 
-//toutes les relations pour la messagerie socket
+// user <=> articles vus <=> Article
+User.hasMany(ArticlesVus, {
+  foreignKey: "Id_users",
+  as: "articlesVus",
+});
 
+ArticlesVus.belongsTo(User, {
+  foreignKey: "Id_users",
+  as: "user",
+});
+
+Article.hasMany(ArticlesVus, {
+  foreignKey: "Id_articles",
+  as: "articlesVus",
+});
+
+ArticlesVus.belongsTo(Article, {
+  foreignKey: "Id_articles",
+  as: "article",
+});
+
+// toutes les relations pour la messagerie socket
 Conversation.hasMany(ConversationParticipant, {
   foreignKey: "Id_conversations",
   as: "participants",
@@ -167,8 +182,7 @@ ConversationParticipant.belongsTo(User, {
   as: "user",
 });
 
-//users => notif
-
+// users => notif
 User.hasMany(Notification, {
   foreignKey: "Id_users",
   as: "notifications",
@@ -180,7 +194,6 @@ Notification.belongsTo(User, {
 });
 
 // note des users
-
 User.hasMany(Notation, {
   foreignKey: "Id_users",
   as: "notations",
@@ -192,7 +205,6 @@ Notation.belongsTo(User, {
 });
 
 // signalement des users
-
 User.hasMany(Report, {
   foreignKey: "Id_users",
   as: "reports",
@@ -204,7 +216,6 @@ Report.belongsTo(User, {
 });
 
 // pareil pour les articles
-
 Article.hasMany(Report, {
   foreignKey: "Id_articles",
   as: "reports",
@@ -216,7 +227,6 @@ Report.belongsTo(Article, {
 });
 
 // proposition troc/echange
-
 User.hasMany(PropositionTroc, {
   foreignKey: "Id_users",
   as: "propositionsTroc",
@@ -226,7 +236,6 @@ PropositionTroc.belongsTo(User, {
   foreignKey: "Id_users",
   as: "user",
 });
-
 
 Article.hasMany(PropositionTroc, {
   foreignKey: "Id_articles",
@@ -238,7 +247,7 @@ PropositionTroc.belongsTo(Article, {
   as: "article",
 });
 
-//role admin pour nous et user pour les autres 
+// role admin pour nous et user pour les autres
 Role.hasMany(User, {
   foreignKey: "Id_roles",
   as: "users",
@@ -248,6 +257,7 @@ User.belongsTo(Role, {
   foreignKey: "Id_roles",
   as: "role",
 });
+
 // conversation => messages
 Conversation.hasMany(Messages, {
   foreignKey: "Id_conversations",
@@ -268,6 +278,7 @@ Messages.belongsTo(User, {
   foreignKey: "Id_users",
   as: "user",
 });
+
 export {
   Region,
   Ville,
@@ -280,6 +291,7 @@ export {
   Tag,
   Messages,
   Favorite,
+  ArticlesVus,
   Conversation,
   ConversationParticipant,
   Notification,

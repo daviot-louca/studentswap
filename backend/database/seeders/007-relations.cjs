@@ -35,15 +35,15 @@ module.exports = {
     await queryInterface.bulkInsert("conversationParticipants", [
       {
         Id_conversationsParticipants:
-          "c0000000-0000-4000-8000-000000000001",
+          "c0000000-0000-4000-8000-000000000002",
         Id_conversations: "b0000000-0000-4000-8000-000000000001",
-        Id_users: "80000000-0000-4000-8000-000000000001",
+        Id_users: "80000000-0000-4000-8000-000000000003",
         created_at: now,
         updated_at: now,
       },
       {
         Id_conversationsParticipants:
-          "c0000000-0000-4000-8000-000000000002",
+          "c0000000-0000-4000-8000-000000000001",
         Id_conversations: "b0000000-0000-4000-8000-000000000001",
         Id_users: "80000000-0000-4000-8000-000000000002",
         created_at: now,
@@ -58,7 +58,7 @@ module.exports = {
           "d0000000-0000-4000-8000-000000000001",
         statut: "en_attente",
         message: "Bonjour, je suis intéressé par cet article.",
-        Id_users: "80000000-0000-4000-8000-000000000001",
+        Id_users: "80000000-0000-4000-8000-000000000002",
         Id_articles: "90000000-0000-4000-8000-000000000002",
         created_at: now,
         updated_at: now,

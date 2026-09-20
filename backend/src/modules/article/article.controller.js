@@ -5,6 +5,7 @@ import {
     createArticleService,
     updateArticleService,
     deleteArticleService,
+    getSwipeArticlesService
   } from "./article.service.js";
   
   // Récupérer tous les articles
@@ -153,6 +154,32 @@ import {
       });
     } catch (error) {
       console.error("Erreur suppression article :", error);
+  
+      const statusCode = error.statusCode || 500;
+  
+      return res.status(statusCode).json({
+        success: false,
+        error:
+          statusCode === 500
+            ? "Erreur interne du serveur"
+            : error.message,
+      });
+    }
+  };
+
+  export const getSwipeArticles = async (req, res) => {
+    try {
+      const articles = await getSwipeArticlesService(req.user.id);
+  
+      return res.status(200).json({
+        success: true,
+        articles,
+      });
+    } catch (error) {
+      console.error(
+        "Erreur récupération articles pour le swipe :",
+        error,
+      );
   
       const statusCode = error.statusCode || 500;
   

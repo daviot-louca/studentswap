@@ -20,7 +20,7 @@ app.use(corsMiddleware);
 // le rate limiting mais là il est à 100 requetes max, on l'augmentera plus tard
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 100000,
   standardHeaders: true,
   legacyHeaders: false,
 
