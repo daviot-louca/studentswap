@@ -101,9 +101,9 @@ function ArticleDetail() {
 
         setError(
           requestError.response?.data?.message ||
-            requestError.response?.data?.error ||
-            requestError.message ||
-            "Impossible de récupérer cet article.",
+          requestError.response?.data?.error ||
+          requestError.message ||
+          "Impossible de récupérer cet article.",
         );
       } finally {
         if (!cancelled) {
@@ -215,11 +215,13 @@ function ArticleDetail() {
             city={city}
           />
         </section>
-
         <ArticleDetailActions
           onProposal={() =>
-            navigate(`/articles/${id}/proposer`)
-          }
+            navigate(`/articles/${id}/proposer`, {
+              state: {
+                article,
+              },
+            })}
         />
       </div>
     </main>

@@ -21,6 +21,23 @@ module.exports = {
         allowNull: true,
       },
 
+      type: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        defaultValue: "exchange",
+      },
+
+      Id_article_propose: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        references: {
+          model: "articles",
+          key: "Id_articles",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
+
       Id_users: {
         type: Sequelize.UUID,
         allowNull: false,

@@ -21,6 +21,11 @@ const Messages = sequelize.define(
       allowNull: false,
     },
 
+    Id_propositions_troc: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+
     contenu: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -31,6 +36,7 @@ const Messages = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+
     updated_at: {
       type: DataTypes.DATE,
       allowNull: false,

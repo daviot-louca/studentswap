@@ -247,6 +247,17 @@ PropositionTroc.belongsTo(Article, {
   as: "article",
 });
 
+// article proposé dans une proposition d'échange
+Article.hasMany(PropositionTroc, {
+  foreignKey: "Id_article_propose",
+  as: "propositionsTrocProposees",
+});
+
+PropositionTroc.belongsTo(Article, {
+  foreignKey: "Id_article_propose",
+  as: "articlePropose",
+});
+
 // role admin pour nous et user pour les autres
 Role.hasMany(User, {
   foreignKey: "Id_roles",
@@ -277,6 +288,17 @@ User.hasMany(Messages, {
 Messages.belongsTo(User, {
   foreignKey: "Id_users",
   as: "user",
+});
+
+// message => proposition de troc/échange
+Messages.belongsTo(PropositionTroc, {
+  foreignKey: "Id_propositions_troc",
+  as: "proposition",
+});
+
+PropositionTroc.hasMany(Messages, {
+  foreignKey: "Id_propositions_troc",
+  as: "messages",
 });
 
 export {

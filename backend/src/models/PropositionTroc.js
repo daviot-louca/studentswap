@@ -22,6 +22,17 @@ const PropositionTroc = sequelize.define(
       allowNull: true,
     },
 
+    type: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      defaultValue: "exchange",
+    },
+
+    Id_article_propose: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+
     Id_users: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -37,7 +48,7 @@ const PropositionTroc = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    
+
     updated_at: {
       type: DataTypes.DATE,
       allowNull: false,

@@ -32,6 +32,17 @@ module.exports = {
         onDelete: "CASCADE",
       },
 
+      Id_propositions_troc: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        references: {
+          model: "propositions_troc",
+          key: "Id_propositions_troc",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
+
       contenu: {
         type: Sequelize.TEXT,
         allowNull: false,
@@ -54,7 +65,15 @@ module.exports = {
 
     await queryInterface.addIndex("messages", ["Id_users"]);
 
-    await queryInterface.addIndex("messages", ["created_at"]);
+    await queryInterface.addIndex(
+      "messages",
+      ["Id_propositions_troc"],
+    );
+
+    await queryInterface.addIndex(
+      "messages",
+      ["created_at"],
+    );
   },
 
   async down(queryInterface) {

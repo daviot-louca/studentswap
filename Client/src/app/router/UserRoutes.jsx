@@ -6,7 +6,8 @@ import UserLayout from "../../user/layout/UserLayout";
 import Home from "../../features/articles/pages/Home";
 import ArticleDetail from "../../features/articlesDetails/pages/articleDetail";
 import Proposal from "../../features/proposals/pages/Proposals";
-
+import Conversations from "../../features/conversations/pages/Conversations";
+import Conversation from "../../features/conversations/pages/Conversation";
 function UserRoutes() {
   return (
     <Routes>
@@ -29,11 +30,6 @@ function UserRoutes() {
         />
 
         <Route
-          path="/messages"
-          element={<div>Messages</div>}
-        />
-
-        <Route
           path="/profile"
           element={<div>Profil</div>}
         />
@@ -47,6 +43,15 @@ function UserRoutes() {
           path="/articles/:id/proposer"
           element={<Proposal />}
         />
+<Route
+  path="/messages"
+  element={<Conversations />}
+/>
+
+<Route
+  path="/messages/:id"
+  element={<Conversation />}
+/>
       </Route>
     </Routes>
   );
