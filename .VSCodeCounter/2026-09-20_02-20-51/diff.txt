@@ -1,0 +1,54 @@
+Date : 2026-09-20 02:20:51
+Directory : /Users/loucadaviot/Desktop/studentswap
+Total : 21 files,  1566 codes, 82 comments, 263 blanks, all 1911 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         21 |      1,566 |         82 |        263 |      1,911 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                     | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                        |         21 |      1,566 |         82 |        263 |      1,911 |
+| backend                                                                                                  |         21 |      1,566 |         82 |        263 |      1,911 |
+| backend/src                                                                                              |         21 |      1,566 |         82 |        263 |      1,911 |
+| backend/src/modules                                                                                      |         20 |      1,556 |         82 |        263 |      1,901 |
+| backend/src/modules/propositionTroc                                                                      |          4 |        408 |         22 |         60 |        490 |
+| backend/src/modules/regions                                                                              |          4 |        293 |         15 |         50 |        358 |
+| backend/src/modules/roles                                                                                |          4 |        278 |         15 |         52 |        345 |
+| backend/src/modules/userPhotos                                                                           |          4 |        204 |         12 |         36 |        252 |
+| backend/src/modules/villes                                                                               |          4 |        373 |         18 |         65 |        456 |
+| backend/src/routes                                                                                       |          1 |         10 |          0 |          0 |         10 |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                 | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.controller.js | JavaScript |        134 |          5 |         20 |        159 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.routes.js     | JavaScript |         31 |          5 |         10 |         46 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.schema.js     | JavaScript |         14 |          2 |          2 |         18 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/propositionTroc/propositionTroc.service.js    | JavaScript |        229 |         10 |         28 |        267 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.controller.js                 | JavaScript |        107 |          5 |         20 |        132 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.routes.js                     | JavaScript |         47 |          5 |          9 |         61 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.schema.js                     | JavaScript |         14 |          0 |          2 |         16 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/regions/regions.service.js                    | JavaScript |        125 |          5 |         19 |        149 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.controller.js                     | JavaScript |        107 |          5 |         20 |        132 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.routes.js                         | JavaScript |         47 |          5 |         11 |         63 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.schema.js                         | JavaScript |         14 |          0 |          2 |         16 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/roles/roles.service.js                        | JavaScript |        110 |          5 |         19 |        134 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.controller.js           | JavaScript |         95 |          4 |         16 |        115 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.routes.js               | JavaScript |         33 |          4 |          7 |         44 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.schema.js               | JavaScript |          4 |          0 |          1 |          5 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/userPhotos/userPhotos.service.js              | JavaScript |         72 |          4 |         12 |         88 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.controller.js                   | JavaScript |        132 |          6 |         24 |        162 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.routes.js                       | JavaScript |         53 |          6 |         12 |         71 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.schema.js                       | JavaScript |         16 |          0 |          2 |         18 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/villes/villes.service.js                      | JavaScript |        172 |          6 |         27 |        205 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/routes/index.routes.js                                | JavaScript |         10 |          0 |          0 |         10 |
+| Total                                                                                                    |            |      1,566 |         82 |        263 |      1,911 |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

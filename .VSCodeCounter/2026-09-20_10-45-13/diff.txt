@@ -1,0 +1,67 @@
+Date : 2026-09-20 10:45:13
+Directory : /Users/loucadaviot/Desktop/studentswap
+Total : 30 files,  2210 codes, -2 comments, 242 blanks, all 2450 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          2 |      1,406 |          0 |          0 |      1,406 |
+| JavaScript |         28 |        804 |         -2 |        242 |      1,044 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                              | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                 |         30 |      2,210 |         -2 |        242 |      2,450 |
+| backend                                                                                           |         30 |      2,210 |         -2 |        242 |      2,450 |
+| backend (Files)                                                                                   |          2 |      1,406 |          0 |          0 |      1,406 |
+| backend/src                                                                                       |         10 |         44 |         -2 |         32 |         74 |
+| backend/src/models                                                                                |          1 |          0 |         -1 |          0 |         -1 |
+| backend/src/modules                                                                               |          8 |         42 |         -1 |         32 |         73 |
+| backend/src/modules/article                                                                       |          1 |       -141 |          0 |          1 |       -140 |
+| backend/src/modules/auth                                                                          |          1 |         17 |         -1 |          0 |         16 |
+| backend/src/modules/conversations                                                                 |          1 |        -10 |          0 |          0 |        -10 |
+| backend/src/modules/notations                                                                     |          4 |        174 |          0 |         32 |        206 |
+| backend/src/modules/users                                                                         |          1 |          2 |          0 |         -1 |          1 |
+| backend/src/routes                                                                                |          1 |          2 |          0 |          0 |          2 |
+| backend/tests                                                                                     |         18 |        760 |          0 |        210 |        970 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                          | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/loucadaviot/Desktop/studentswap/backend/package-lock.json                                  | JSON       |      1,402 |          0 |          0 |      1,402 |
+| /Users/loucadaviot/Desktop/studentswap/backend/package.json                                       | JSON       |          4 |          0 |          0 |          4 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/models/index.js                                | JavaScript |          0 |         -1 |          0 |         -1 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.service.js             | JavaScript |       -141 |          0 |          1 |       -140 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/auth/auth.service.js                   | JavaScript |         17 |         -1 |          0 |         16 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.service.js | JavaScript |        -10 |          0 |          0 |        -10 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.controller.js      | JavaScript |         53 |          0 |          8 |         61 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.routes.js          | JavaScript |         30 |          0 |          7 |         37 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.schema.js          | JavaScript |          9 |          0 |          2 |         11 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/notations/notations.service.js         | JavaScript |         82 |          0 |         15 |         97 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/modules/users/users.routes.js                  | JavaScript |          2 |          0 |         -1 |          1 |
+| /Users/loucadaviot/Desktop/studentswap/backend/src/routes/index.routes.js                         | JavaScript |          2 |          0 |          0 |          2 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/articlePhoto.test.js                         | JavaScript |         12 |          0 |          3 |         15 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/articles.test.js                             | JavaScript |        107 |          0 |         28 |        135 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/auth.test.js                                 | JavaScript |         82 |          0 |         16 |         98 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/categories.test.js                           | JavaScript |         39 |          0 |         11 |         50 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/conversation.test.js                         | JavaScript |         56 |          0 |         18 |         74 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/etatArticle.test.js                          | JavaScript |         38 |          0 |         11 |         49 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/favories.test.js                             | JavaScript |         35 |          0 |         13 |         48 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/notations.test.js                            | JavaScript |         11 |          0 |          2 |         13 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/notifications.test.js                        | JavaScript |         27 |          0 |          7 |         34 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/propositionTroc.test.js                      | JavaScript |         41 |          0 |         12 |         53 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/regions.test.js                              | JavaScript |         30 |          0 |          9 |         39 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/reports.test.js                              | JavaScript |         40 |          0 |         12 |         52 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/roles.test.js                                | JavaScript |         27 |          0 |          7 |         34 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/subcategories.test.js                        | JavaScript |         36 |          0 |         11 |         47 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/tags.test.js                                 | JavaScript |         38 |          0 |         11 |         49 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/userPhotos.test.js                           | JavaScript |         29 |          0 |          7 |         36 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/users.test.js                                | JavaScript |         82 |          0 |         23 |        105 |
+| /Users/loucadaviot/Desktop/studentswap/backend/tests/villes.test.js                               | JavaScript |         30 |          0 |          9 |         39 |
+| Total                                                                                             |            |      2,210 |         -2 |        242 |      2,450 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
