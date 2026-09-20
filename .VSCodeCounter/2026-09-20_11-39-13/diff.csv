@@ -1,0 +1,36 @@
+"filename", "language", "JavaScript", "JSON", "Markdown", "XML", "JavaScript JSX", "HTML", "PostCSS", "comment", "blank", "total"
+"/Users/loucadaviot/Desktop/studentswap/Client/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/eslint.config.js", "JavaScript", 20, 0, 0, 0, 0, 0, 0, 0, 2, 22
+"/Users/loucadaviot/Desktop/studentswap/Client/index.html", "HTML", 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"/Users/loucadaviot/Desktop/studentswap/Client/package-lock.json", "JSON", 0, 2477, 0, 0, 0, 0, 0, 0, 1, 2478
+"/Users/loucadaviot/Desktop/studentswap/Client/package.json", "JSON", 0, 27, 0, 0, 0, 0, 0, 0, 1, 28
+"/Users/loucadaviot/Desktop/studentswap/Client/public/favicon.svg", "XML", 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/public/icons.svg", "XML", 0, 0, 0, 24, 0, 0, 0, 0, 1, 25
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/AdminHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/AdminSidebar.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/DataTable.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/components/StatCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/layout/AdminLayout.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/pages/AdminLoginPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/admin/pages/AdminNotFoundPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/App.jsx", "JavaScript JSX", 0, 0, 0, 0, 8, 0, 0, 1, 4, 13
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/index.css", "PostCSS", 0, 0, 0, 0, 0, 0, 9, 0, 1, 10
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/main.jsx", "JavaScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 2, 11
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/AuthProvider.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/providers/SocketProvider.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/AdminRoutes.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/Index.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/UserRoutes.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/constants.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/formatDate.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/components/layout/formatError.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/hooks/useAuth.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/hooks/useDebounce.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/api.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/socket.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/storage.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/components/UserHeader.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/layout/UserLayout.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/pages/NotFoundPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/vite.config.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 1, 1, 8
+"Total", "-", 26, 2504, 0, 25, 17, 13, 9, 2, 38, 2634
