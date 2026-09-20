@@ -118,14 +118,16 @@ function ArticleCard({ article }) {
   };
 
   return (
-    <article className="relative w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-100">
-      <div className="relative aspect-4/5 overflow-hidden bg-gray-100">
+    <article className="relative w-full max-w-sm select-none overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-100">
+      <div className="relative aspect-4/5 select-none overflow-hidden bg-gray-100">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={data?.titre || "Article"}
-            className="h-full w-full object-cover"
+            className="h-full w-full select-none object-cover"
             loading="lazy"
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             onError={(event) => {
               event.currentTarget.style.display = "none";
             }}

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createProposal } from "../api/proposals.api";
+import { getMyArticles } from "../../articles/api/articles.api";
 
 const DEFAULT_MESSAGE =
   "Bonjour, je suis intéressé par ton article. Serais-tu intéressé par un échange ?";
@@ -11,8 +12,61 @@ function ProposalModal({
   onSuccess,
 }) {
   const [message, setMessage] = useState(DEFAULT_MESSAGE);
+  const [myArticles, setMyArticles] = useState([]);
+  const [selectedArticleId, setSelectedArticleId] = useState("");
+  const [loadingArticles, setLoadingArticles] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen || !article) {
+      return;
+    }
+
+    const loadMyArticles = async () => {
+      try {
+        setLoadingArticles(true);
+        setError(null);
+
+        const articles = await getMyArticles();
+
+        const availableArticles = Array.isArray(articles)
+          ? articles.filter(
+              (item) =>
+                item?.Id_articles !== article?.Id_articles,
+            )
+          : [];
+
+        setMyArticles(availableArticles);
+
+        if (availableArticles.length > 0) {
+          setSelectedArticleId(
+            availableArticles[0].Id_articles,
+          );
+        } else {
+          setSelectedArticleId("");
+        }
+      } catch (err) {
+        console.error(
+          "Erreur récupération de mes articles :",
+          err,
+        );
+
+        setMyArticles([]);
+        setSelectedArticleId("");
+
+        setError(
+          err.response?.data?.error ||
+            err.response?.data?.message ||
+            "Impossible de récupérer vos articles.",
+        );
+      } finally {
+        setLoadingArticles(false);
+      }
+    };
+
+    loadMyArticles();
+  }, [isOpen, article]);
 
   if (!isOpen || !article) {
     return null;
@@ -24,14 +78,22 @@ function ProposalModal({
     }
 
     setMessage(DEFAULT_MESSAGE);
+    setSelectedArticleId("");
+    setMyArticles([]);
     setError(null);
+
     onClose();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!article.Id_articles || loading) {
+    if (
+      !article.Id_articles ||
+      !selectedArticleId ||
+      loading ||
+      loadingArticles
+    ) {
       return;
     }
 
@@ -42,6 +104,8 @@ function ProposalModal({
       const proposal = await createProposal(
         article.Id_articles,
         message,
+        "exchange",
+        selectedArticleId,
       );
 
       if (onSuccess) {
@@ -49,7 +113,9 @@ function ProposalModal({
       }
 
       setMessage(DEFAULT_MESSAGE);
+      setSelectedArticleId("");
       setError(null);
+
       onClose();
     } catch (err) {
       console.error(
@@ -77,7 +143,7 @@ function ProposalModal({
             </h2>
 
             <p className="mt-1 text-sm text-muted">
-              Envoie une proposition au propriétaire.
+              Choisis l'un de tes articles à proposer en échange.
             </p>
           </div>
 
@@ -94,7 +160,7 @@ function ProposalModal({
 
         <div className="mb-5 rounded-2xl bg-background p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-muted">
-            Article
+            Article recherché
           </p>
 
           <p className="mt-1 font-semibold text-text">
@@ -102,7 +168,53 @@ function ProposalModal({
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
+          <div>
+            <label
+              htmlFor="proposal-article"
+              className="mb-2 block text-sm font-semibold text-text"
+            >
+              Ton article à proposer
+            </label>
+
+            {loadingArticles ? (
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-muted">
+                Chargement de tes articles...
+              </div>
+            ) : myArticles.length > 0 ? (
+              <select
+                id="proposal-article"
+                value={selectedArticleId}
+                onChange={(event) =>
+                  setSelectedArticleId(event.target.value)
+                }
+                disabled={loading}
+                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 disabled:bg-gray-100"
+              >
+                <option value="" disabled>
+                  Sélectionne un article
+                </option>
+
+                {myArticles.map((myArticle) => (
+                  <option
+                    key={myArticle.Id_articles}
+                    value={myArticle.Id_articles}
+                  >
+                    {myArticle.titre || "Article sans titre"}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                Tu dois avoir au moins un autre article pour
+                proposer un troc.
+              </div>
+            )}
+          </div>
+
           <div>
             <label
               htmlFor="proposal-message"
@@ -114,7 +226,9 @@ function ProposalModal({
             <textarea
               id="proposal-message"
               value={message}
-              onChange={(event) => setMessage(event.target.value)}
+              onChange={(event) =>
+                setMessage(event.target.value)
+              }
               rows={4}
               maxLength={500}
               disabled={loading}
@@ -144,7 +258,13 @@ function ProposalModal({
 
             <button
               type="submit"
-              disabled={loading || !message.trim()}
+              disabled={
+                loading ||
+                loadingArticles ||
+                !selectedArticleId ||
+                !message.trim() ||
+                myArticles.length === 0
+              }
               className="flex-1 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Envoi..." : "Proposer ↔"}
