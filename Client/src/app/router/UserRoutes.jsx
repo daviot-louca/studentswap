@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import NotFoundPage from "../../user/pages/NotFoundPage"
 function UserRoutes() {
   return (
     <Routes>
@@ -16,6 +16,10 @@ function UserRoutes() {
       <Route
         path="/register"
         element={<div>Register</div>}
+      />
+      <Route
+      path="/notfound"
+      element={NotFoundPage}
       />
     </Routes>
   );
