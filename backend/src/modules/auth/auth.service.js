@@ -10,6 +10,7 @@ export const registerService = async ({
   pseudo,
   email,
   password,
+  confirmPassword,
   Id_villes,
 }) => {
   try {
@@ -42,6 +43,12 @@ export const registerService = async ({
     if (!defaultRole) {
       const error = new Error("Rôle utilisateur introuvable");
       error.statusCode = 500;
+      throw error;
+    }
+
+    if (password !== confirmPassword) {
+      const error = new Error("Les mots de passe ne correspondent pas");
+      error.statusCode = 400;
       throw error;
     }
 
