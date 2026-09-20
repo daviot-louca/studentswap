@@ -1,6 +1,6 @@
 import { AppRouter } from "./router";
-import { AuthProvider } from "./providers/AuthProvider";
-import { SocketProvider } from "./providers/SocketProvider";
+import { AuthProvider } from "./providers/AuthProvider.jsx";
+import { SocketProvider } from "./providers/SocketProvider.jsx";
 
 function App() {
   return (

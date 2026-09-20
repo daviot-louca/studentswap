@@ -1,26 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import NotFoundPage from "../../user/pages/NotFoundPage"
+
+import Login from "../../features/auth/pages/Login";
+import Register from "../../features/auth/pages/Register";
+
 function UserRoutes() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<div>StudentSwap User</div>}
-      />
+      <Route path="/" element={<div>StudentSwap User</div>} />
 
-      <Route
-        path="/login"
-        element={<div>Login</div>}
-      />
-
-      <Route
-        path="/register"
-        element={<div>Register</div>}
-      />
-      <Route
-      path="/notfound"
-      element={NotFoundPage}
-      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }

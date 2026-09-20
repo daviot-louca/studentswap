@@ -1,14 +1,13 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
-const AuthContext = createContext(null);
+import { useEffect, useMemo, useState } from "react";
+import client from "../../shared/lib/api";
+import { AuthContext } from "./AuthContext";
 
 const TOKEN_KEY = "studentswap_token";
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem(TOKEN_KEY);
-  });
-
+  const [token, setToken] = useState(() =>
+    localStorage.getItem(TOKEN_KEY),
+  );
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,14 +20,21 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      /*
-       * Plus tard :
-       * GET /auth/me
-       *
-       * pour récupérer l'utilisateur connecté.
-       */
+      try {
+        const { data } = await client.get("/auth/me");
+        setUser(data.user ?? data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error,
+        );
 
-      setLoading(false);
+        localStorage.removeItem(TOKEN_KEY);
+        setToken(null);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     initializeAuth();
@@ -36,14 +42,12 @@ export function AuthProvider({ children }) {
 
   const login = (newToken, userData = null) => {
     localStorage.setItem(TOKEN_KEY, newToken);
-
     setToken(newToken);
     setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
-
     setToken(null);
     setUser(null);
   };
@@ -65,14 +69,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth doit être utilisé dans un AuthProvider");
-  }
-
-  return context;
 }

@@ -24,7 +24,6 @@ const router = Router();
 // Récupérer toutes les villes
 router.get(
   "/",
-  authMiddleware,
   allVilles,
 );
 

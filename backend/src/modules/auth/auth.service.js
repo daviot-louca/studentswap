@@ -1,5 +1,6 @@
 import User from "../../models/User.js";
 import Role from "../../models/Role.js";
+import Ville from "../../models/Ville.js";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
@@ -10,7 +11,6 @@ export const registerService = async ({
   pseudo,
   email,
   password,
-  confirmPassword,
   Id_villes,
 }) => {
   try {
@@ -34,6 +34,14 @@ export const registerService = async ({
       }
     }
 
+    const ville = await Ville.findByPk(Id_villes);
+
+    if (!ville) {
+      const error = new Error("Ville introuvable");
+      error.statusCode = 400;
+      throw error;
+    }
+
     const defaultRole = await Role.findOne({
       where: {
         nom: "user",
@@ -45,13 +53,6 @@ export const registerService = async ({
       error.statusCode = 500;
       throw error;
     }
-
-    if (password !== confirmPassword) {
-      const error = new Error("Les mots de passe ne correspondent pas");
-      error.statusCode = 400;
-      throw error;
-    }
-
     const hashedPassword = await hash(password, 12);
     const now = new Date();
 
@@ -71,7 +72,13 @@ export const registerService = async ({
 
     delete userData.motsDePasse;
 
-    return userData;
+    return {
+      ...userData,
+      ville: {
+        Id_villes: ville.Id_villes,
+        nom: ville.nom,
+      },
+    };
   } catch (error) {
     console.error("Erreur lors de l'inscription :", error);
     throw error;
@@ -87,6 +94,11 @@ export const loginService = async ({ email, password }) => {
           model: Role,
           as: "role",
           attributes: ["Id_roles", "nom"],
+        },
+        {
+          model: Ville,
+          as: "ville",
+          attributes: ["Id_villes", "nom"],
         },
       ],
     });
@@ -184,6 +196,11 @@ export const getMeService = async (id) => {
           as: "role",
           attributes: ["Id_roles", "nom"],
         },
+        {
+          model: Ville,
+          as: "ville",
+          attributes: ["Id_villes", "nom"],
+        },
       ],
     });
 
@@ -195,10 +212,7 @@ export const getMeService = async (id) => {
 
     return user;
   } catch (error) {
-    console.error(
-      "Erreur récupération utilisateur :",
-      error,
-    );
+    console.error("Erreur récupération utilisateur :", error);
 
     throw error;
   }
