@@ -45,17 +45,31 @@ function Conversation() {
             getConversationMessages(id),
           ]);
 
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         setConversation(conversationData);
 
-        setMessages(
-          Array.isArray(messagesData)
-            ? messagesData
-            : [],
-        );
+        let loadedMessages = [];
+
+        if (Array.isArray(messagesData)) {
+          loadedMessages = messagesData;
+        } else if (Array.isArray(messagesData?.data)) {
+          loadedMessages = messagesData.data;
+        } else if (Array.isArray(messagesData?.messages)) {
+          loadedMessages = messagesData.messages;
+        } else if (
+          Array.isArray(messagesData?.data?.messages)
+        ) {
+          loadedMessages = messagesData.data.messages;
+        }
+
+        setMessages(loadedMessages);
       } catch (requestError) {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         console.error(
           "Erreur récupération conversation :",
@@ -103,7 +117,7 @@ function Conversation() {
 
       const newMessage = await sendMessage(
         id,
-        content,
+        content.trim(),
       );
 
       if (newMessage) {
@@ -121,6 +135,7 @@ function Conversation() {
       setError(
         requestError.response?.data?.message ||
           requestError.response?.data?.error ||
+          requestError.message ||
           "Impossible d'envoyer le message.",
       );
     } finally {
@@ -203,14 +218,6 @@ function Conversation() {
     );
   }
 
-  const regularMessages = messages.filter(
-    (message) => !message?.proposition,
-  );
-
-  const proposalMessages = messages.filter(
-    (message) => Boolean(message?.proposition),
-  );
-
   return (
     <main className="flex min-h-screen flex-col overflow-hidden bg-background text-text">
       {conversation && (
@@ -226,53 +233,75 @@ function Conversation() {
             currentUser={currentUser}
             isLoading
           />
-        ) : (
-          <>
-            <MessageList
-              messages={regularMessages}
-              currentUser={currentUser}
-              isLoading={false}
-            />
-
-            {proposalMessages.length > 0 && (
-              <div className="mt-4 space-y-4">
-                {proposalMessages.map((message) => {
-                  const proposalId =
-                    message?.proposition
-                      ?.Id_propositions_troc;
-
-                  return (
-                    <div
-                      key={message.Id_messages}
-                      className="flex w-full justify-start"
-                    >
-                      <ProposalsMessage
-                        message={message}
-                        currentUserId={currentUserId}
-                        isUpdating={
-                          String(
-                            updatingProposalId,
-                          ) === String(proposalId)
-                        }
-                        onAccept={() =>
-                          handleProposalUpdate(
-                            proposalId,
-                            "acceptee",
-                          )
-                        }
-                        onRefuse={() =>
-                          handleProposalUpdate(
-                            proposalId,
-                            "refusee",
-                          )
-                        }
-                      />
-                    </div>
-                  );
-                })}
+        ) : messages.length === 0 ? (
+          <div className="flex min-h-[50vh] items-center justify-center">
+            <div className="text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
+                💬
               </div>
-            )}
-          </>
+
+              <h2 className="mt-4 text-base font-bold text-text">
+                Aucun message
+              </h2>
+
+              <p className="mt-1 text-sm text-muted">
+                Commencez la conversation.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {messages.map((message) => {
+              const proposal =
+                message?.proposition;
+
+              if (proposal) {
+                const proposalId =
+                  proposal?.Id_propositions_troc;
+
+                return (
+                  <div
+                    key={
+                      message?.Id_messages ||
+                      proposalId
+                    }
+                    className="flex w-full justify-start"
+                  >
+                    <ProposalsMessage
+                      message={message}
+                      currentUserId={currentUserId}
+                      isUpdating={
+                        String(
+                          updatingProposalId,
+                        ) === String(proposalId)
+                      }
+                      onAccept={() =>
+                        handleProposalUpdate(
+                          proposalId,
+                          "acceptee",
+                        )
+                      }
+                      onRefuse={() =>
+                        handleProposalUpdate(
+                          proposalId,
+                          "refusee",
+                        )
+                      }
+                    />
+                  </div>
+                );
+              }
+
+              return (
+                <MessageList
+                  key={message?.Id_messages}
+                  messages={[message]}
+                  currentUser={currentUser}
+                  isLoading={false}
+                />
+              );
+            })}
+          </div>
         )}
       </div>
 

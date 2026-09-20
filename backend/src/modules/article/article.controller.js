@@ -11,7 +11,7 @@ import {
   // Récupérer tous les articles
   export const allArticle = async (req, res) => {
     try {
-      const articles = await getArticlesService(req.query);
+      const articles = await getArticlesService(req.query,req.user.id);
   
       return res.status(200).json({
         success: true,

@@ -8,6 +8,7 @@ import ArticleDetail from "../../features/articlesDetails/pages/articleDetail";
 import Proposal from "../../features/proposals/pages/Proposals";
 import Conversations from "../../features/conversations/pages/Conversations";
 import Conversation from "../../features/conversations/pages/Conversation";
+import CreationArticle from "../../features/ajoutarticles/CreationArticle";
 function UserRoutes() {
   return (
     <Routes>
@@ -26,7 +27,7 @@ function UserRoutes() {
 
         <Route
           path="/create"
-          element={<div>Publier un article</div>}
+          element={<CreationArticle/>}
         />
 
         <Route
@@ -43,15 +44,15 @@ function UserRoutes() {
           path="/articles/:id/proposer"
           element={<Proposal />}
         />
-<Route
-  path="/messages"
-  element={<Conversations />}
-/>
+        <Route
+          path="/messages"
+          element={<Conversations />}
+        />
 
-<Route
-  path="/messages/:id"
-  element={<Conversation />}
-/>
+        <Route
+          path="/messages/:id"
+          element={<Conversation />}
+        />
       </Route>
     </Routes>
   );

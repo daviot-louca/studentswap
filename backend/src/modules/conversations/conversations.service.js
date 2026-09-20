@@ -3,39 +3,93 @@ import {
   ConversationParticipant,
   Messages,
   User,
-  PropositionTroc,
-  Article,
-  ArticlePhoto,
 } from "../../models/index.js";
 import { Op } from "sequelize";
 
 export const getUserConversations = async (userId) => {
-  const participations = await ConversationParticipant.findAll({
-    where: {
-      Id_users: userId,
-    },
-    include: [
-      {
-        association: "conversation",
-        include: [
-          {
-            association: "participants",
-            include: [
-              {
-                association: "user",
-                attributes: ["Id_users", "pseudo", "prenom", "nom"],
-              },
-            ],
-          },
-        ],
+  const participations =
+    await ConversationParticipant.findAll({
+      where: {
+        Id_users: userId,
       },
-    ],
-    order: [["created_at", "DESC"]],
-  });
 
-  return participations.map(
-    (participation) => participation.conversation,
-  );
+      include: [
+        {
+          association: "conversation",
+
+          include: [
+            {
+              association: "participants",
+
+              include: [
+                {
+                  association: "user",
+
+                  attributes: [
+                    "Id_users",
+                    "pseudo",
+                    "prenom",
+                    "nom",
+                  ],
+                },
+              ],
+            },
+
+            {
+              association: "messages",
+
+              separate: true,
+
+              limit: 1,
+
+              order: [["created_at", "DESC"]],
+
+              include: [
+                {
+                  association: "user",
+
+                  attributes: [
+                    "Id_users",
+                    "pseudo",
+                    "prenom",
+                    "nom",
+                  ],
+                },
+
+                {
+                  association: "proposition",
+
+                  required: false,
+
+                  include: [
+                    {
+                      association: "article",
+
+                      required: false,
+                    },
+
+                    {
+                      association: "articlePropose",
+
+                      required: false,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+
+      order: [["created_at", "DESC"]],
+    });
+
+  return participations
+    .map(
+      (participation) =>
+        participation.conversation,
+    )
+    .filter(Boolean);
 };
 
 export const getConversationById = async (
@@ -60,27 +114,30 @@ export const getConversationById = async (
     throw error;
   }
 
-  const conversation = await Conversation.findByPk(
-    conversationId,
-    {
-      include: [
-        {
-          association: "participants",
-          include: [
-            {
-              association: "user",
-              attributes: [
-                "Id_users",
-                "pseudo",
-                "prenom",
-                "nom",
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  );
+  const conversation =
+    await Conversation.findByPk(
+      conversationId,
+      {
+        include: [
+          {
+            association: "participants",
+
+            include: [
+              {
+                association: "user",
+
+                attributes: [
+                  "Id_users",
+                  "pseudo",
+                  "prenom",
+                  "nom",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    );
 
   if (!conversation) {
     const error = new Error(
@@ -91,6 +148,13 @@ export const getConversationById = async (
 
     throw error;
   }
+
+  conversation.setDataValue(
+    "currentUser",
+    {
+      Id_users: userId,
+    },
+  );
 
   return conversation;
 };
@@ -141,6 +205,7 @@ export const getConversationMessages = async (
       include: [
         {
           association: "user",
+
           attributes: [
             "Id_users",
             "pseudo",
@@ -151,27 +216,48 @@ export const getConversationMessages = async (
 
         {
           association: "proposition",
+
           required: false,
 
           include: [
             {
               association: "article",
 
+              required: false,
+
               include: [
                 {
                   association: "photos",
+
+                  required: false,
                 },
               ],
             },
 
             {
               association: "articlePropose",
+
               required: false,
 
               include: [
                 {
                   association: "photos",
+
+                  required: false,
                 },
+              ],
+            },
+
+            {
+              association: "user",
+
+              required: false,
+
+              attributes: [
+                "Id_users",
+                "pseudo",
+                "prenom",
+                "nom",
               ],
             },
           ],
@@ -190,8 +276,11 @@ export const getConversationMessages = async (
 
     pagination: {
       page: pageNumber,
+
       limit: limitNumber,
+
       total: result.count,
+
       totalPages: Math.ceil(
         result.count / limitNumber,
       ),
@@ -230,7 +319,10 @@ export const createConversation = async (
     await ConversationParticipant.findAll({
       where: {
         Id_users: {
-          [Op.in]: [userId, participantId],
+          [Op.in]: [
+            userId,
+            participantId,
+          ],
         },
       },
     });
@@ -275,12 +367,14 @@ export const createConversation = async (
     {
       Id_conversations:
         conversation.Id_conversations,
+
       Id_users: userId,
     },
 
     {
       Id_conversations:
         conversation.Id_conversations,
+
       Id_users: participantId,
     },
   ]);

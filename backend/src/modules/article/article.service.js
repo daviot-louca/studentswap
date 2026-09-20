@@ -20,9 +20,6 @@ import {
  *
  * Titre       : +5
  * Description : +2
- *
- * Si aucun tag ne correspond :
- * score = 0 → aucune sous-catégorie automatique.
  */
 const detectSubCategoryByTags = async (titre = "", description = "") => {
   const tags = await Tag.findAll({
@@ -47,17 +44,14 @@ const detectSubCategoryByTags = async (titre = "", description = "") => {
 
     let score = 0;
 
-    // Tag présent dans le titre
     if (titreLower.includes(tagName)) {
       score += 5;
     }
 
-    // Tag présent dans la description
     if (descriptionLower.includes(tagName)) {
       score += 2;
     }
 
-    // Aucun match
     if (score === 0) {
       continue;
     }
@@ -75,14 +69,12 @@ const detectSubCategoryByTags = async (titre = "", description = "") => {
     ([, scoreA], [, scoreB]) => scoreB - scoreA,
   );
 
-  // Aucun tag correspondant
   if (!rankedSubCategories.length) {
     return null;
   }
 
   const [bestSubCategoryId, bestScore] = rankedSubCategories[0];
 
-  // Sécurité supplémentaire
   if (bestScore <= 0) {
     return null;
   }
@@ -90,8 +82,9 @@ const detectSubCategoryByTags = async (titre = "", description = "") => {
   return bestSubCategoryId;
 };
 
-// Récupérer tous les articles
-export const getArticlesService = async (query = {}) => {
+// Récupérer les articles publics
+// Les articles de l'utilisateur connecté sont exclus.
+export const getArticlesService = async (query = {}, userId = null) => {
   try {
     const {
       search,
@@ -104,6 +97,13 @@ export const getArticlesService = async (query = {}) => {
     } = query;
 
     const where = {};
+
+    // Ne pas afficher ses propres annonces
+    if (userId) {
+      where.Id_users = {
+        [Op.ne]: userId,
+      };
+    }
 
     // Recherche par titre ou description
     if (search) {
@@ -144,7 +144,6 @@ export const getArticlesService = async (query = {}) => {
       userWhere.Id_villes = Id_villes;
     }
 
-    // Filtre par région
     const regionInclude = {
       model: Region,
       as: "region",
@@ -174,7 +173,10 @@ export const getArticlesService = async (query = {}) => {
 
           attributes: ["Id_users", "pseudo", "prenom", "nom"],
 
-          where: Object.keys(userWhere).length > 0 ? userWhere : undefined,
+          where:
+            Object.keys(userWhere).length > 0
+              ? userWhere
+              : undefined,
 
           include: [
             {
@@ -300,6 +302,7 @@ export const getArticleByIdService = async (id) => {
 };
 
 // Récupérer les articles de l'utilisateur connecté
+// Cette fonction reste volontairement séparée des listes publiques.
 export const getMyArticlesService = async (id) => {
   try {
     const articles = await Article.findAll({
@@ -363,23 +366,14 @@ export const createArticleService = async ({
       throw error;
     }
 
-    /*
-     * Si une sous-catégorie est fournie,
-     * elle est prioritaire.
-     *
-     * Sinon, on tente de la déterminer
-     * automatiquement avec les tags.
-     */
     let subCategoryId = Id_subCategories;
 
     if (!subCategoryId) {
-      subCategoryId = await detectSubCategoryByTags(titre, description);
+      subCategoryId = await detectSubCategoryByTags(
+        titre,
+        description,
+      );
 
-      /*
-       * Aucun tag correspondant :
-       * l'utilisateur doit choisir
-       * manuellement une sous-catégorie.
-       */
       if (!subCategoryId) {
         const error = new Error(
           "Aucune sous-catégorie n'a pu être déterminée automatiquement. Veuillez sélectionner une sous-catégorie manuellement.",
@@ -391,20 +385,28 @@ export const createArticleService = async ({
       }
     }
 
-    const subCategory = await SubCategory.findByPk(subCategoryId);
+    const subCategory = await SubCategory.findByPk(
+      subCategoryId,
+    );
 
     if (!subCategory) {
-      const error = new Error("Sous-catégorie introuvable");
+      const error = new Error(
+        "Sous-catégorie introuvable",
+      );
 
       error.statusCode = 404;
 
       throw error;
     }
 
-    const etatArticle = await EtatArticle.findByPk(Id_etatArticle);
+    const etatArticle = await EtatArticle.findByPk(
+      Id_etatArticle,
+    );
 
     if (!etatArticle) {
-      const error = new Error("État d'article introuvable");
+      const error = new Error(
+        "État d'article introuvable",
+      );
 
       error.statusCode = 404;
 
@@ -431,7 +433,11 @@ export const createArticleService = async ({
 };
 
 // Modifier un article
-export const updateArticleService = async (id, userId, data) => {
+export const updateArticleService = async (
+  id,
+  userId,
+  data,
+) => {
   try {
     const article = await Article.findByPk(id);
 
@@ -443,9 +449,10 @@ export const updateArticleService = async (id, userId, data) => {
       throw error;
     }
 
-    // Vérifier que l'utilisateur possède l'article
     if (article.Id_users !== userId) {
-      const error = new Error("Vous n'êtes pas propriétaire de cet article");
+      const error = new Error(
+        "Vous n'êtes pas propriétaire de cet article",
+      );
 
       error.statusCode = 403;
 
@@ -454,15 +461,15 @@ export const updateArticleService = async (id, userId, data) => {
 
     let subCategoryId = data.Id_subCategories;
 
-    /*
-     * Si l'utilisateur fournit explicitement
-     * une sous-catégorie, elle est prioritaire.
-     */
     if (subCategoryId !== undefined) {
-      const subCategory = await SubCategory.findByPk(subCategoryId);
+      const subCategory = await SubCategory.findByPk(
+        subCategoryId,
+      );
 
       if (!subCategory) {
-        const error = new Error("Sous-catégorie introuvable");
+        const error = new Error(
+          "Sous-catégorie introuvable",
+        );
 
         error.statusCode = 404;
 
@@ -472,40 +479,42 @@ export const updateArticleService = async (id, userId, data) => {
       article.Id_subCategories = subCategoryId;
     }
 
-    /*
-     * Si le titre ou la description changent
-     * et qu'aucune sous-catégorie n'est fournie,
-     * on tente une nouvelle détection.
-     */
     if (
-      (data.titre !== undefined || data.description !== undefined) &&
+      (data.titre !== undefined ||
+        data.description !== undefined) &&
       subCategoryId === undefined
     ) {
-      const newTitre = data.titre !== undefined ? data.titre : article.titre;
+      const newTitre =
+        data.titre !== undefined
+          ? data.titre
+          : article.titre;
 
       const newDescription =
-        data.description !== undefined ? data.description : article.description;
+        data.description !== undefined
+          ? data.description
+          : article.description;
 
-      const detectedSubCategory = await detectSubCategoryByTags(
-        newTitre,
-        newDescription,
-      );
+      const detectedSubCategory =
+        await detectSubCategoryByTags(
+          newTitre,
+          newDescription,
+        );
 
-      /*
-       * Si aucun tag ne correspond,
-       * on conserve la sous-catégorie actuelle.
-       */
       if (detectedSubCategory) {
-        article.Id_subCategories = detectedSubCategory;
+        article.Id_subCategories =
+          detectedSubCategory;
       }
     }
 
-    // Vérifier l'état de l'article
     if (data.Id_etatArticle !== undefined) {
-      const etatArticle = await EtatArticle.findByPk(data.Id_etatArticle);
+      const etatArticle = await EtatArticle.findByPk(
+        data.Id_etatArticle,
+      );
 
       if (!etatArticle) {
-        const error = new Error("État d'article introuvable");
+        const error = new Error(
+          "État d'article introuvable",
+        );
 
         error.statusCode = 404;
 
@@ -531,14 +540,20 @@ export const updateArticleService = async (id, userId, data) => {
 
     return getArticleByIdService(id);
   } catch (error) {
-    console.error("Erreur modification article :", error);
+    console.error(
+      "Erreur modification article :",
+      error,
+    );
 
     throw error;
   }
 };
 
 // Supprimer un article
-export const deleteArticleService = async (id, userId) => {
+export const deleteArticleService = async (
+  id,
+  userId,
+) => {
   try {
     const article = await Article.findByPk(id);
 
@@ -550,9 +565,10 @@ export const deleteArticleService = async (id, userId) => {
       throw error;
     }
 
-    // Vérifier que l'utilisateur possède l'article
     if (article.Id_users !== userId) {
-      const error = new Error("Vous n'êtes pas propriétaire de cet article");
+      const error = new Error(
+        "Vous n'êtes pas propriétaire de cet article",
+      );
 
       error.statusCode = 403;
 
@@ -565,18 +581,26 @@ export const deleteArticleService = async (id, userId) => {
       message: "Article supprimé avec succès.",
     };
   } catch (error) {
-    console.error("Erreur suppression article :", error);
+    console.error(
+      "Erreur suppression article :",
+      error,
+    );
 
     throw error;
   }
 };
 
-export const getSwipeArticlesService = async (userId) => {
+// Articles du swipe
+// Les annonces de l'utilisateur connecté sont exclues.
+export const getSwipeArticlesService = async (
+  userId,
+) => {
   try {
     const articlesVus = await ArticlesVus.findAll({
       where: {
         Id_users: userId,
       },
+
       attributes: ["Id_articles"],
     });
 
@@ -584,7 +608,11 @@ export const getSwipeArticlesService = async (userId) => {
       (articleVu) => articleVu.Id_articles,
     );
 
-    const where = {};
+    const where = {
+      Id_users: {
+        [Op.ne]: userId,
+      },
+    };
 
     if (articlesVusIds.length > 0) {
       where.Id_articles = {
@@ -594,6 +622,7 @@ export const getSwipeArticlesService = async (userId) => {
 
     const articles = await Article.findAll({
       where,
+
       order: [["created_at", "DESC"]],
 
       include: [
@@ -601,7 +630,12 @@ export const getSwipeArticlesService = async (userId) => {
           model: User,
           as: "user",
 
-          attributes: ["Id_users", "pseudo", "prenom", "nom"],
+          attributes: [
+            "Id_users",
+            "pseudo",
+            "prenom",
+            "nom",
+          ],
 
           include: [
             {
@@ -649,7 +683,10 @@ export const getSwipeArticlesService = async (userId) => {
 
     return articles;
   } catch (error) {
-    console.error("Erreur récupération articles pour le swipe :", error);
+    console.error(
+      "Erreur récupération articles pour le swipe :",
+      error,
+    );
 
     throw error;
   }
