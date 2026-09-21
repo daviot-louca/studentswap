@@ -10,47 +10,69 @@ import {
   removeFavorite,
 } from "../../favorites/api/favorites.api";
 
+const EMPTY_FILTERS = {
+  search: "",
+  category: "",
+  Id_subCategories: "",
+  Id_etatArticle: "",
+  region: "",
+  Id_villes: "",
+};
+
 function Home() {
   const swipeStackRef = useRef(null);
 
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
 
   const [currentArticle, setCurrentArticle] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
 
+  const loadArticles = async (activeFilters = EMPTY_FILTERS) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const data = await getSwipeArticles(activeFilters);
+
+      console.log("Articles pour le swipe :", data);
+
+      setArticles(data);
+      setCurrentArticle(null);
+      setIsFavorite(false);
+    } catch (err) {
+      console.error(
+        "Erreur lors du chargement des articles :",
+        err,
+      );
+
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Impossible de charger les articles.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const data = await getSwipeArticles();
-
-        console.log("Articles pour le swipe :", data);
-
-        setArticles(data);
-      } catch (err) {
-        console.error(
-          "Erreur lors du chargement des articles :",
-          err,
-        );
-
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Impossible de charger les articles.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadArticles();
   }, []);
+
+  const handleFiltersApply = (newFilters) => {
+    const nextFilters = {
+      ...EMPTY_FILTERS,
+      ...(newFilters || {}),
+    };
+
+    setFilters(nextFilters);
+    loadArticles(nextFilters);
+  };
 
   const handleArticleChange = async (article) => {
     setCurrentArticle(article);
@@ -127,7 +149,10 @@ function Home() {
 
   return (
     <section className="space-y-6">
-      <HomeFilters />
+      <HomeFilters
+        onApply={handleFiltersApply}
+        initialFilters={filters}
+      />
 
       {loading && (
         <div className="flex min-h-107.5 items-center justify-center rounded-3xl bg-white text-sm text-muted shadow-sm ring-1 ring-gray-100">

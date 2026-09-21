@@ -67,19 +67,6 @@ function ArticleForm({
         required
       />
 
-      <ArticleFormField
-        label="Prix indicatif"
-        id="prix"
-        type="number"
-        value={form.prix}
-        onChange={(event) =>
-          onChange("prix", event.target.value)
-        }
-        placeholder="0"
-        min="0"
-        step="0.01"
-      />
-
       <ArticleCategoryFields
         categories={categories}
         subCategories={subCategories}

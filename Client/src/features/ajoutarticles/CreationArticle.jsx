@@ -39,7 +39,6 @@ function CreationArticle() {
   const [form, setForm] = useState({
     titre: "",
     description: "",
-    prix: "",
     categoryId: "",
     subCategoryId: "",
     etatId: "",
@@ -193,30 +192,12 @@ function CreationArticle() {
       return;
     }
 
-    if (form.prix !== "") {
-      const numericPrice = Number(form.prix);
-
-      if (
-        Number.isNaN(numericPrice) ||
-        numericPrice < 0
-      ) {
-        setError(
-          "Le prix doit être un nombre positif ou nul.",
-        );
-        return;
-      }
-    }
-
     const payload = {
       titre: cleanTitle,
       description: cleanDescription,
       Id_subCategories: form.subCategoryId,
       Id_etatArticle: form.etatId,
     };
-
-    if (form.prix !== "") {
-      payload.prix = Number(form.prix);
-    }
 
     try {
       setIsSubmitting(true);

@@ -195,8 +195,8 @@ export const getSwipeArticles = async (req, res) => {
     const articles =
       await getSwipeArticlesService(
         req.user.id,
+        req.query,
       );
-
     return res.status(200).json({
       success: true,
       articles,

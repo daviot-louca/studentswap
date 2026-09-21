@@ -18,38 +18,21 @@ import {
 
 /*
  * Include commun pour récupérer les photos d'un article.
- *
- * L'association Article -> ArticlePhoto utilise
- * l'alias "articlePhotos" dans les modèles Sequelize.
  */
 const articlePhotosInclude = {
   model: ArticlePhoto,
   as: "photos",
   required: false,
-  attributes: [
-    "Id_photosArticle",
-    "url",
-    "ordre",
-  ],
+  attributes: ["Id_photosArticle", "url", "ordre"],
 };
 
 /*
  * Déterminer automatiquement la sous-catégorie
  * grâce aux tags présents dans le titre et la description.
- *
- * Titre       : +5
- * Description : +2
  */
-const detectSubCategoryByTags = async (
-  titre = "",
-  description = "",
-) => {
+const detectSubCategoryByTags = async (titre = "", description = "") => {
   const tags = await Tag.findAll({
-    attributes: [
-      "Id_tags",
-      "nom",
-      "Id_subCategories",
-    ],
+    attributes: ["Id_tags", "nom", "Id_subCategories"],
   });
 
   if (!tags.length) {
@@ -57,20 +40,14 @@ const detectSubCategoryByTags = async (
   }
 
   const titreLower = titre.toLowerCase();
-  const descriptionLower =
-    description.toLowerCase();
+  const descriptionLower = description.toLowerCase();
 
   const scores = {};
 
   for (const tag of tags) {
-    const tagName = tag.nom
-      .toLowerCase()
-      .trim();
+    const tagName = tag.nom.toLowerCase().trim();
 
-    if (
-      !tagName ||
-      !tag.Id_subCategories
-    ) {
+    if (!tagName || !tag.Id_subCategories) {
       continue;
     }
 
@@ -80,9 +57,7 @@ const detectSubCategoryByTags = async (
       score += 5;
     }
 
-    if (
-      descriptionLower.includes(tagName)
-    ) {
+    if (descriptionLower.includes(tagName)) {
       score += 2;
     }
 
@@ -90,8 +65,7 @@ const detectSubCategoryByTags = async (
       continue;
     }
 
-    const subCategoryId =
-      tag.Id_subCategories;
+    const subCategoryId = tag.Id_subCategories;
 
     if (!scores[subCategoryId]) {
       scores[subCategoryId] = 0;
@@ -100,20 +74,15 @@ const detectSubCategoryByTags = async (
     scores[subCategoryId] += score;
   }
 
-  const rankedSubCategories =
-    Object.entries(scores).sort(
-      ([, scoreA], [, scoreB]) =>
-        scoreB - scoreA,
-    );
+  const rankedSubCategories = Object.entries(scores).sort(
+    ([, scoreA], [, scoreB]) => scoreB - scoreA,
+  );
 
   if (!rankedSubCategories.length) {
     return null;
   }
 
-  const [
-    bestSubCategoryId,
-    bestScore,
-  ] = rankedSubCategories[0];
+  const [bestSubCategoryId, bestScore] = rankedSubCategories[0];
 
   if (bestScore <= 0) {
     return null;
@@ -124,14 +93,8 @@ const detectSubCategoryByTags = async (
 
 /*
  * Récupérer les articles publics.
- *
- * Les articles de l'utilisateur connecté
- * sont exclus.
  */
-export const getArticlesService = async (
-  query = {},
-  userId = null,
-) => {
+export const getArticlesService = async (query = {}, userId = null) => {
   try {
     const {
       search,
@@ -145,14 +108,12 @@ export const getArticlesService = async (
 
     const where = {};
 
-    // Ne pas afficher ses propres annonces
     if (userId) {
       where.Id_users = {
         [Op.ne]: userId,
       };
     }
 
-    // Recherche par titre ou description
     if (search) {
       where[Op.or] = [
         {
@@ -168,16 +129,12 @@ export const getArticlesService = async (
       ];
     }
 
-    // Filtre par sous-catégorie
     if (Id_subCategories) {
-      where.Id_subCategories =
-        Id_subCategories;
+      where.Id_subCategories = Id_subCategories;
     }
 
-    // Filtre par état
     if (Id_etatArticle) {
-      where.Id_etatArticle =
-        Id_etatArticle;
+      where.Id_etatArticle = Id_etatArticle;
     }
 
     const {
@@ -188,7 +145,6 @@ export const getArticlesService = async (
 
     const userWhere = {};
 
-    // Filtre par ville
     if (Id_villes) {
       userWhere.Id_villes = Id_villes;
     }
@@ -196,10 +152,7 @@ export const getArticlesService = async (
     const regionInclude = {
       model: Region,
       as: "region",
-      attributes: [
-        "Id_regions",
-        "nom",
-      ],
+      attributes: ["Id_regions", "nom"],
       required: Boolean(region),
     };
 
@@ -211,90 +164,62 @@ export const getArticlesService = async (
       };
     }
 
-    const result =
-      await Article.findAndCountAll({
-        where,
-        limit: limitNumber,
-        offset,
-        distinct: true,
-        order: [
-          ["created_at", "DESC"],
-        ],
+    const result = await Article.findAndCountAll({
+      where,
+      limit: limitNumber,
+      offset,
+      distinct: true,
+      order: [["created_at", "DESC"]],
 
-        include: [
-          {
-            model: User,
-            as: "user",
+      include: [
+        {
+          model: User,
+          as: "user",
 
-            attributes: [
-              "Id_users",
-              "pseudo",
-              "prenom",
-              "nom",
-            ],
+          attributes: ["Id_users", "pseudo", "prenom", "nom"],
 
-            where:
-              Object.keys(userWhere)
-                .length > 0
-                ? userWhere
-                : undefined,
+          where: Object.keys(userWhere).length > 0 ? userWhere : undefined,
 
-            include: [
-              {
-                model: Ville,
-                as: "ville",
+          include: [
+            {
+              model: Ville,
+              as: "ville",
 
-                attributes: [
-                  "Id_villes",
-                  "nom",
-                ],
+              attributes: ["Id_villes", "nom"],
 
-                required:
-                  Boolean(region),
+              required: Boolean(region),
 
-                include: [
-                  regionInclude,
-                ],
-              },
-            ],
-          },
+              include: [regionInclude],
+            },
+          ],
+        },
 
-          {
-            model: SubCategory,
-            as: "subCategory",
+        {
+          model: SubCategory,
+          as: "subCategory",
 
-            attributes: [
-              "Id_subCategories",
-              "nom",
-            ],
+          attributes: ["Id_subCategories", "nom"],
 
-            include: [
-              {
-                model: Category,
-                as: "category",
+          include: [
+            {
+              model: Category,
+              as: "category",
 
-                attributes: [
-                  "Id_categories",
-                  "nom",
-                ],
-              },
-            ],
-          },
+              attributes: ["Id_categories", "nom"],
+            },
+          ],
+        },
 
-          {
-            model: EtatArticle,
-            as: "etat",
+        {
+          model: EtatArticle,
+          as: "etat",
 
-            attributes: [
-              "Id_etatArticle",
-              "nom",
-            ],
-          },
+          attributes: ["Id_etatArticle", "nom"],
+        },
 
-          // Photos de l'article
-          articlePhotosInclude,
-        ],
-      });
+        articlePhotosInclude,
+      ],
+    });
 
     return getPaginationResult({
       rows: result.rows,
@@ -303,10 +228,7 @@ export const getArticlesService = async (
       limit: limitNumber,
     });
   } catch (error) {
-    console.error(
-      "Erreur récupération articles :",
-      error,
-    );
+    console.error("Erreur récupération articles :", error);
 
     throw error;
   }
@@ -315,465 +237,331 @@ export const getArticlesService = async (
 /*
  * Récupérer un article par son ID.
  */
-export const getArticleByIdService =
-  async (id) => {
-    try {
-      const article =
-        await Article.findByPk(id, {
+export const getArticleByIdService = async (id) => {
+  try {
+    const article = await Article.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: "user",
+
+          attributes: ["Id_users", "pseudo", "prenom", "nom"],
+
           include: [
             {
-              model: User,
-              as: "user",
+              model: Ville,
+              as: "ville",
 
-              attributes: [
-                "Id_users",
-                "pseudo",
-                "prenom",
-                "nom",
-              ],
+              attributes: ["Id_villes", "nom"],
 
               include: [
                 {
-                  model: Ville,
-                  as: "ville",
+                  model: Region,
+                  as: "region",
 
-                  attributes: [
-                    "Id_villes",
-                    "nom",
-                  ],
-
-                  include: [
-                    {
-                      model: Region,
-                      as: "region",
-
-                      attributes: [
-                        "Id_regions",
-                        "nom",
-                      ],
-                    },
-                  ],
+                  attributes: ["Id_regions", "nom"],
                 },
               ],
             },
-
-            {
-              model: SubCategory,
-              as: "subCategory",
-
-              attributes: [
-                "Id_subCategories",
-                "nom",
-              ],
-
-              include: [
-                {
-                  model: Category,
-                  as: "category",
-
-                  attributes: [
-                    "Id_categories",
-                    "nom",
-                  ],
-                },
-              ],
-            },
-
-            {
-              model: EtatArticle,
-              as: "etat",
-
-              attributes: [
-                "Id_etatArticle",
-                "nom",
-              ],
-            },
-
-            // Photos de l'article
-            articlePhotosInclude,
           ],
-        });
+        },
 
-      if (!article) {
-        const error = new Error(
-          "Article introuvable",
-        );
+        {
+          model: SubCategory,
+          as: "subCategory",
 
-        error.statusCode = 404;
+          attributes: ["Id_subCategories", "nom"],
 
-        throw error;
-      }
+          include: [
+            {
+              model: Category,
+              as: "category",
 
-      return article;
-    } catch (error) {
-      console.error(
-        "Erreur récupération article :",
-        error,
-      );
+              attributes: ["Id_categories", "nom"],
+            },
+          ],
+        },
+
+        {
+          model: EtatArticle,
+          as: "etat",
+
+          attributes: ["Id_etatArticle", "nom"],
+        },
+
+        articlePhotosInclude,
+      ],
+    });
+
+    if (!article) {
+      const error = new Error("Article introuvable");
+
+      error.statusCode = 404;
 
       throw error;
     }
-  };
+
+    return article;
+  } catch (error) {
+    console.error("Erreur récupération article :", error);
+
+    throw error;
+  }
+};
 
 /*
  * Récupérer les articles de l'utilisateur connecté.
  */
-export const getMyArticlesService =
-  async (id) => {
-    try {
-      const articles =
-        await Article.findAll({
-          where: {
-            Id_users: id,
-          },
+export const getMyArticlesService = async (id) => {
+  try {
+    const articles = await Article.findAll({
+      where: {
+        Id_users: id,
+      },
+
+      include: [
+        {
+          model: SubCategory,
+          as: "subCategory",
+
+          attributes: ["Id_subCategories", "nom"],
 
           include: [
             {
-              model: SubCategory,
-              as: "subCategory",
+              model: Category,
+              as: "category",
 
-              attributes: [
-                "Id_subCategories",
-                "nom",
-              ],
-
-              include: [
-                {
-                  model: Category,
-                  as: "category",
-
-                  attributes: [
-                    "Id_categories",
-                    "nom",
-                  ],
-                },
-              ],
+              attributes: ["Id_categories", "nom"],
             },
-
-            {
-              model: EtatArticle,
-              as: "etat",
-
-              attributes: [
-                "Id_etatArticle",
-                "nom",
-              ],
-            },
-
-            // Photos de l'article
-            articlePhotosInclude,
           ],
+        },
 
-          order: [
-            ["created_at", "DESC"],
-          ],
-        });
+        {
+          model: EtatArticle,
+          as: "etat",
 
-      return articles;
-    } catch (error) {
-      console.error(
-        "Erreur récupération de mes articles :",
-        error,
-      );
+          attributes: ["Id_etatArticle", "nom"],
+        },
 
-      throw error;
-    }
-  };
+        articlePhotosInclude,
+      ],
+
+      order: [["created_at", "DESC"]],
+    });
+
+    return articles;
+  } catch (error) {
+    console.error("Erreur récupération de mes articles :", error);
+
+    throw error;
+  }
+};
 
 /*
  * Créer un article.
  */
-export const createArticleService =
-  async ({
-    titre,
-    description,
-    prix,
-    Id_subCategories,
-    Id_etatArticle,
-    Id_users,
-  }) => {
-    try {
-      const user =
-        await User.findByPk(Id_users);
+export const createArticleService = async ({
+  titre,
+  description,
+  prix,
+  Id_subCategories,
+  Id_etatArticle,
+  Id_users,
+}) => {
+  try {
+    const user = await User.findByPk(Id_users);
 
-      if (!user) {
-        const error = new Error(
-          "Utilisateur introuvable",
-        );
+    if (!user) {
+      const error = new Error("Utilisateur introuvable");
 
-        error.statusCode = 404;
-
-        throw error;
-      }
-
-      let subCategoryId =
-        Id_subCategories;
-
-      if (!subCategoryId) {
-        subCategoryId =
-          await detectSubCategoryByTags(
-            titre,
-            description,
-          );
-
-        if (!subCategoryId) {
-          const error = new Error(
-            "Aucune sous-catégorie n'a pu être déterminée automatiquement. Veuillez sélectionner une sous-catégorie manuellement.",
-          );
-
-          error.statusCode = 400;
-
-          throw error;
-        }
-      }
-
-      const subCategory =
-        await SubCategory.findByPk(
-          subCategoryId,
-        );
-
-      if (!subCategory) {
-        const error = new Error(
-          "Sous-catégorie introuvable",
-        );
-
-        error.statusCode = 404;
-
-        throw error;
-      }
-
-      const etatArticle =
-        await EtatArticle.findByPk(
-          Id_etatArticle,
-        );
-
-      if (!etatArticle) {
-        const error = new Error(
-          "État d'article introuvable",
-        );
-
-        error.statusCode = 404;
-
-        throw error;
-      }
-
-      const article =
-        await Article.create({
-          titre,
-          description,
-          prix,
-          Id_subCategories:
-            subCategoryId,
-          Id_etatArticle,
-          Id_users,
-          created_at: new Date(),
-          updated_at: new Date(),
-        });
-
-      return getArticleByIdService(
-        article.Id_articles,
-      );
-    } catch (error) {
-      console.error(
-        "Erreur création article :",
-        error,
-      );
+      error.statusCode = 404;
 
       throw error;
     }
-  };
+
+    let subCategoryId = Id_subCategories;
+
+    if (!subCategoryId) {
+      subCategoryId = await detectSubCategoryByTags(titre, description);
+
+      if (!subCategoryId) {
+        const error = new Error(
+          "Aucune sous-catégorie n'a pu être déterminée automatiquement. Veuillez sélectionner une sous-catégorie manuellement.",
+        );
+
+        error.statusCode = 400;
+
+        throw error;
+      }
+    }
+
+    const subCategory = await SubCategory.findByPk(subCategoryId);
+
+    if (!subCategory) {
+      const error = new Error("Sous-catégorie introuvable");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    const etatArticle = await EtatArticle.findByPk(Id_etatArticle);
+
+    if (!etatArticle) {
+      const error = new Error("État d'article introuvable");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    const article = await Article.create({
+      titre,
+      description,
+      prix,
+      Id_subCategories: subCategoryId,
+      Id_etatArticle,
+      Id_users,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
+
+    return getArticleByIdService(article.Id_articles);
+  } catch (error) {
+    console.error("Erreur création article :", error);
+
+    throw error;
+  }
+};
 
 /*
  * Modifier un article.
  */
-export const updateArticleService =
-  async (
-    id,
-    userId,
-    data,
-  ) => {
-    try {
-      const article =
-        await Article.findByPk(id);
+export const updateArticleService = async (id, userId, data) => {
+  try {
+    const article = await Article.findByPk(id);
 
-      if (!article) {
-        const error = new Error(
-          "Article introuvable",
-        );
+    if (!article) {
+      const error = new Error("Article introuvable");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    if (article.Id_users !== userId) {
+      const error = new Error("Vous n'êtes pas propriétaire de cet article");
+
+      error.statusCode = 403;
+
+      throw error;
+    }
+
+    let subCategoryId = data.Id_subCategories;
+
+    if (subCategoryId !== undefined) {
+      const subCategory = await SubCategory.findByPk(subCategoryId);
+
+      if (!subCategory) {
+        const error = new Error("Sous-catégorie introuvable");
 
         error.statusCode = 404;
 
         throw error;
       }
 
-      if (
-        article.Id_users !== userId
-      ) {
-        const error = new Error(
-          "Vous n'êtes pas propriétaire de cet article",
-        );
+      article.Id_subCategories = subCategoryId;
+    }
 
-        error.statusCode = 403;
+    if (
+      (data.titre !== undefined || data.description !== undefined) &&
+      subCategoryId === undefined
+    ) {
+      const newTitre = data.titre !== undefined ? data.titre : article.titre;
+
+      const newDescription =
+        data.description !== undefined ? data.description : article.description;
+
+      const detectedSubCategory = await detectSubCategoryByTags(
+        newTitre,
+        newDescription,
+      );
+
+      if (detectedSubCategory) {
+        article.Id_subCategories = detectedSubCategory;
+      }
+    }
+
+    if (data.Id_etatArticle !== undefined) {
+      const etatArticle = await EtatArticle.findByPk(data.Id_etatArticle);
+
+      if (!etatArticle) {
+        const error = new Error("État d'article introuvable");
+
+        error.statusCode = 404;
 
         throw error;
       }
 
-      let subCategoryId =
-        data.Id_subCategories;
-
-      if (
-        subCategoryId !== undefined
-      ) {
-        const subCategory =
-          await SubCategory.findByPk(
-            subCategoryId,
-          );
-
-        if (!subCategory) {
-          const error = new Error(
-            "Sous-catégorie introuvable",
-          );
-
-          error.statusCode = 404;
-
-          throw error;
-        }
-
-        article.Id_subCategories =
-          subCategoryId;
-      }
-
-      if (
-        (
-          data.titre !== undefined ||
-          data.description !== undefined
-        ) &&
-        subCategoryId === undefined
-      ) {
-        const newTitre =
-          data.titre !== undefined
-            ? data.titre
-            : article.titre;
-
-        const newDescription =
-          data.description !== undefined
-            ? data.description
-            : article.description;
-
-        const detectedSubCategory =
-          await detectSubCategoryByTags(
-            newTitre,
-            newDescription,
-          );
-
-        if (detectedSubCategory) {
-          article.Id_subCategories =
-            detectedSubCategory;
-        }
-      }
-
-      if (
-        data.Id_etatArticle !==
-        undefined
-      ) {
-        const etatArticle =
-          await EtatArticle.findByPk(
-            data.Id_etatArticle,
-          );
-
-        if (!etatArticle) {
-          const error = new Error(
-            "État d'article introuvable",
-          );
-
-          error.statusCode = 404;
-
-          throw error;
-        }
-
-        article.Id_etatArticle =
-          data.Id_etatArticle;
-      }
-
-      if (
-        data.titre !== undefined
-      ) {
-        article.titre = data.titre;
-      }
-
-      if (
-        data.description !== undefined
-      ) {
-        article.description =
-          data.description;
-      }
-
-      if (data.prix !== undefined) {
-        article.prix = data.prix;
-      }
-
-      await article.save();
-
-      return getArticleByIdService(id);
-    } catch (error) {
-      console.error(
-        "Erreur modification article :",
-        error,
-      );
-
-      throw error;
+      article.Id_etatArticle = data.Id_etatArticle;
     }
-  };
+
+    if (data.titre !== undefined) {
+      article.titre = data.titre;
+    }
+
+    if (data.description !== undefined) {
+      article.description = data.description;
+    }
+
+    if (data.prix !== undefined) {
+      article.prix = data.prix;
+    }
+
+    await article.save();
+
+    return getArticleByIdService(id);
+  } catch (error) {
+    console.error("Erreur modification article :", error);
+
+    throw error;
+  }
+};
 
 /*
  * Supprimer un article.
  */
-export const deleteArticleService =
-  async (
-    id,
-    userId,
-  ) => {
-    try {
-      const article =
-        await Article.findByPk(id);
+export const deleteArticleService = async (id, userId) => {
+  try {
+    const article = await Article.findByPk(id);
 
-      if (!article) {
-        const error = new Error(
-          "Article introuvable",
-        );
+    if (!article) {
+      const error = new Error("Article introuvable");
 
-        error.statusCode = 404;
-
-        throw error;
-      }
-
-      if (
-        article.Id_users !== userId
-      ) {
-        const error = new Error(
-          "Vous n'êtes pas propriétaire de cet article",
-        );
-
-        error.statusCode = 403;
-
-        throw error;
-      }
-
-      await article.destroy();
-
-      return {
-        message:
-          "Article supprimé avec succès.",
-      };
-    } catch (error) {
-      console.error(
-        "Erreur suppression article :",
-        error,
-      );
+      error.statusCode = 404;
 
       throw error;
     }
-  };
+
+    if (article.Id_users !== userId) {
+      const error = new Error("Vous n'êtes pas propriétaire de cet article");
+
+      error.statusCode = 403;
+
+      throw error;
+    }
+
+    await article.destroy();
+
+    return {
+      message: "Article supprimé avec succès.",
+    };
+  } catch (error) {
+    console.error("Erreur suppression article :", error);
+
+    throw error;
+  }
+};
 
 /*
  * Articles du swipe.
@@ -781,128 +569,178 @@ export const deleteArticleService =
  * Les annonces de l'utilisateur
  * connecté sont exclues.
  */
-export const getSwipeArticlesService =
-  async (userId) => {
-    try {
-      const articlesVus =
-        await ArticlesVus.findAll({
-          where: {
-            Id_users: userId,
+export const getSwipeArticlesService = async (userId, query = {}) => {
+  try {
+    const articlesVus = await ArticlesVus.findAll({
+      where: {
+        Id_users: userId,
+      },
+
+      attributes: ["Id_articles"],
+    });
+
+    const articlesVusIds = articlesVus.map(
+      (articleVu) => articleVu.Id_articles,
+    );
+
+    const {
+      search,
+      Id_categories,
+      Id_subCategories,
+      Id_etatArticle,
+      Id_villes,
+      region,
+    } = query;
+
+    const where = {
+      Id_users: {
+        [Op.ne]: userId,
+      },
+    };
+
+    if (search) {
+      where[Op.or] = [
+        {
+          titre: {
+            [Op.iLike]: `%${search}%`,
           },
-
-          attributes: [
-            "Id_articles",
-          ],
-        });
-
-      const articlesVusIds =
-        articlesVus.map(
-          (articleVu) =>
-            articleVu.Id_articles,
-        );
-
-      const where = {
-        Id_users: {
-          [Op.ne]: userId,
         },
+        {
+          description: {
+            [Op.iLike]: `%${search}%`,
+          },
+        },
+      ];
+    }
+
+    if (Id_subCategories) {
+      where.Id_subCategories = Id_subCategories;
+    }
+
+    if (Id_etatArticle) {
+      where.Id_etatArticle = Id_etatArticle;
+    }
+
+    if (articlesVusIds.length > 0) {
+      where.Id_articles = {
+        [Op.notIn]: articlesVusIds,
       };
+    }
 
-      if (articlesVusIds.length > 0) {
-        where.Id_articles = {
-          [Op.notIn]:
-            articlesVusIds,
-        };
-      }
+    const articles = await Article.findAll({
+      where,
 
-      const articles =
-        await Article.findAll({
-          where,
+      order: [["created_at", "DESC"]],
 
-          order: [
-            ["created_at", "DESC"],
-          ],
+      include: [
+        {
+          model: User,
+          as: "user",
+
+          attributes: ["Id_users", "pseudo", "prenom", "nom"],
+
+          where: Id_villes
+            ? {
+                Id_villes,
+              }
+            : undefined,
 
           include: [
             {
-              model: User,
-              as: "user",
+              model: Ville,
+              as: "ville",
 
-              attributes: [
-                "Id_users",
-                "pseudo",
-                "prenom",
-                "nom",
-              ],
+              attributes: ["Id_villes", "nom"],
 
               include: [
                 {
-                  model: Ville,
-                  as: "ville",
+                  model: Region,
+                  as: "region",
 
-                  attributes: [
-                    "Id_villes",
-                    "nom",
-                  ],
+                  attributes: ["Id_regions", "nom"],
 
-                  include: [
-                    {
-                      model: Region,
-                      as: "region",
+                  required: Boolean(region),
 
-                      attributes: [
-                        "Id_regions",
-                        "nom",
-                      ],
-                    },
-                  ],
+                  ...(region
+                    ? {
+                        where: {
+                          nom: {
+                            [Op.iLike]: `%${region}%`,
+                          },
+                        },
+                      }
+                    : {}),
                 },
               ],
             },
-
-            {
-              model: SubCategory,
-              as: "subCategory",
-
-              attributes: [
-                "Id_subCategories",
-                "nom",
-              ],
-
-              include: [
-                {
-                  model: Category,
-                  as: "category",
-
-                  attributes: [
-                    "Id_categories",
-                    "nom",
-                  ],
-                },
-              ],
-            },
-
-            {
-              model: EtatArticle,
-              as: "etat",
-
-              attributes: [
-                "Id_etatArticle",
-                "nom",
-              ],
-            },
-
-            // Photos de l'article
-            articlePhotosInclude,
           ],
-        });
+        },
 
-      return articles;
-    } catch (error) {
-      console.error(
-        "Erreur récupération articles pour le swipe :",
-        error,
-      );
+        {
+          model: SubCategory,
+          as: "subCategory",
 
-      throw error;
-    }
-  };
+          /*
+           * Important :
+           *
+           * Si une catégorie est sélectionnée,
+           * le JOIN SubCategory devient obligatoire.
+           *
+           * Cela garantit qu'un article dont la
+           * sous-catégorie n'appartient pas à la
+           * catégorie sélectionnée est exclu.
+           */
+          required: Boolean(Id_categories || Id_subCategories),
+
+          attributes: ["Id_subCategories", "nom"],
+
+          ...(Id_subCategories
+            ? {
+                where: {
+                  Id_subCategories,
+                },
+              }
+            : {}),
+
+          include: [
+            {
+              model: Category,
+              as: "category",
+
+              /*
+               * Si une catégorie est sélectionnée,
+               * le JOIN Category devient obligatoire.
+               */
+              required: Boolean(Id_categories),
+
+              attributes: ["Id_categories", "nom"],
+
+              ...(Id_categories
+                ? {
+                    where: {
+                      Id_categories,
+                    },
+                  }
+                : {}),
+            },
+          ],
+        },
+
+        {
+          model: EtatArticle,
+          as: "etat",
+
+          attributes: ["Id_etatArticle", "nom"],
+        },
+
+        articlePhotosInclude,
+      ],
+    });
+
+    return articles;
+  } catch (error) {
+    console.error("Erreur récupération articles pour le swipe :", error);
+
+    throw error;
+  }
+};
