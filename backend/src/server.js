@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 
 import app from "./app.js";
 import { connectDatabase } from "./config/database.js";
+import socketAuth from "./chats/socket.auth.js";
+import conversationSocket from "./chats/conversation.socket.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,11 +18,20 @@ const io = new Server(httpServer, {
   },
 });
 
+io.use(socketAuth);
+
 io.on("connection", (socket) => {
   console.log(`🔌 Socket connecté : ${socket.id}`);
+  console.log(`👤 Utilisateur Socket.IO : ${socket.user?.id}`);
 
-  socket.on("disconnect", () => {
-    console.log(`🔌 Socket déconnecté : ${socket.id}`);
+  socket.onAny((event, ...args) => {
+    console.log(`📡 Événement Socket.IO reçu : ${event}`, args);
+  });
+
+  conversationSocket(io, socket);
+
+  socket.on("disconnect", (reason) => {
+    console.log(`🔌 Socket déconnecté : ${socket.id} — ${reason}`);
   });
 });
 

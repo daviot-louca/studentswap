@@ -1,0 +1,37 @@
+"filename", "language", "JSON", "JavaScript JSX", "JavaScript", "comment", "blank", "total"
+"/Users/loucadaviot/Desktop/studentswap/Client/package-lock.json", "JSON", 7, 0, 0, 0, 0, 7
+"/Users/loucadaviot/Desktop/studentswap/Client/package.json", "JSON", 1, 0, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/router/UserRoutes.jsx", "JavaScript JSX", 0, 1, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/ajoutarticles/CreationArticle.jsx", "JavaScript JSX", 0, 303, 0, 0, 59, 362
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/ajoutarticles/components/ArticleCategoryFields.jsx", "JavaScript JSX", 0, 122, 0, 0, 14, 136
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/ajoutarticles/components/ArticleForm.jsx", "JavaScript JSX", 0, 97, 0, 0, 8, 105
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/ajoutarticles/components/ArticleFormField.jsx", "JavaScript JSX", 0, 61, 0, 0, 3, 64
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/ajoutarticles/components/ArticleImageUpload.jsx", "JavaScript JSX", 0, 103, 0, 0, 18, 121
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/api/articles.api.js", "JavaScript", 0, 0, 40, 0, 15, 55
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/ArticleCard.jsx", "JavaScript JSX", 0, 52, 0, 0, 10, 62
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/ArticleFilters.jsx", "JavaScript JSX", 0, 423, 0, 0, 54, 477
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/HomeFilter.jsx", "JavaScript JSX", 0, 169, 0, 0, 32, 201
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/pages/Home.jsx", "JavaScript JSX", 0, 22, 0, 0, 3, 25
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articlesDetails/pages/ArticleDetail.jsx", "JavaScript JSX", 0, 70, 0, 0, 10, 80
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/pages/Conversation.jsx", "JavaScript JSX", 0, 129, 0, 0, 12, 141
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/utils/conversations.utils.js", "JavaScript", 0, 0, 39, 0, 12, 51
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/proposals/api/proposals.api.js", "JavaScript", 0, 0, 17, 0, 0, 17
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/proposals/components/ProposalModal.jsx", "JavaScript JSX", 0, 106, 0, 0, 14, 120
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/020-create-propositions-to-messages.cjs", "JavaScript", 0, 0, 62, 0, 9, 71
+"/Users/loucadaviot/Desktop/studentswap/backend/database/seeders/006-articles.cjs", "JavaScript", 0, 0, 384, 0, 6, 390
+"/Users/loucadaviot/Desktop/studentswap/backend/package-lock.json", "JSON", 489, 0, 0, 0, 0, 489
+"/Users/loucadaviot/Desktop/studentswap/backend/package.json", "JSON", 1, 0, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/backend/src/app.js", "JavaScript", 0, 0, 18, 1, 1, 20
+"/Users/loucadaviot/Desktop/studentswap/backend/src/config/cors.js", "JavaScript", 0, 0, 5, 0, 1, 6
+"/Users/loucadaviot/Desktop/studentswap/backend/src/middlewares/upload.middleware.js", "JavaScript", 0, 0, 53, 0, 13, 66
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/index.js", "JavaScript", 0, 0, 16, 2, 4, 22
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.controller.js", "JavaScript", 0, 0, 26, 1, -1, 26
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.schema.js", "JavaScript", 0, 0, 46, 0, 1, 47
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/article/article.service.js", "JavaScript", 0, 0, 79, -9, 20, 90
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.controller.js", "JavaScript", 0, 0, 14, 0, 1, 15
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.routes.js", "JavaScript", 0, 0, 2, 0, 0, 2
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.schema.js", "JavaScript", 0, 0, 5, 0, 0, 5
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/articlePhoto/articlePhoto.service.js", "JavaScript", 0, 0, 124, 5, 44, 173
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.service.js", "JavaScript", 0, 0, 60, 0, 34, 94
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/etatArticle/etatArticle.schema.js", "JavaScript", 0, 0, 19, 0, 1, 20
+"Total", "-", 498, 1658, 1009, 0, 398, 3563

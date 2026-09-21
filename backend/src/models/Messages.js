@@ -30,7 +30,11 @@ const Messages = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-
+    lu: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,

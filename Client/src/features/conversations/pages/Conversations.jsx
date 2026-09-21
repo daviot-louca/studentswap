@@ -5,6 +5,7 @@ import {
 } from "../api/conversations.api";
 
 import ConversationList from "../components/ConversationList";
+import { getSocket } from "../../../shared/lib/socket";
 
 function Conversations() {
   const [conversations, setConversations] = useState([]);
@@ -39,6 +40,102 @@ function Conversations() {
     }
 
     loadConversations();
+  }, []);
+
+  useEffect(() => {
+    const socket = getSocket();
+
+    if (!socket) {
+      return undefined;
+    }
+
+    const handleNewMessage = (payload) => {
+      const newMessage = payload?.message ?? payload;
+      const senderId =
+        payload?.senderId ?? newMessage?.Id_users;
+
+      const conversationId =
+        payload?.conversationId ??
+        newMessage?.Id_conversations ??
+        newMessage?.conversationId ??
+        newMessage?.conversation?.Id_conversations;
+
+      if (!conversationId) {
+        return;
+      }
+
+      const currentUserId =
+        newMessage?.user?.Id_users ??
+        newMessage?.user?.id ??
+        null;
+
+      setConversations((currentConversations) => {
+        const conversationIndex =
+          currentConversations.findIndex(
+            (conversation) => {
+              const currentConversationId =
+                conversation?.Id_conversations ??
+                conversation?.id;
+
+              return (
+                String(currentConversationId) ===
+                String(conversationId)
+              );
+            },
+          );
+
+        if (conversationIndex === -1) {
+          return currentConversations;
+        }
+
+        const conversation =
+          currentConversations[conversationIndex];
+
+        const conversationUserId =
+          conversation?.currentUser?.Id_users ??
+          conversation?.currentUser?.id ??
+          null;
+
+        const isOwnMessage =
+          (senderId != null &&
+            conversationUserId != null &&
+            String(senderId) ===
+              String(conversationUserId)) ||
+          (senderId == null &&
+            currentUserId != null &&
+            conversationUserId != null &&
+            String(currentUserId) ===
+              String(conversationUserId));
+
+        const updatedConversation = {
+          ...conversation,
+          unreadCount: isOwnMessage
+            ? Number(conversation?.unreadCount) || 0
+            : (Number(conversation?.unreadCount) || 0) + 1,
+          lastMessage: newMessage,
+        };
+
+        return [
+          updatedConversation,
+          ...currentConversations.filter(
+            (_, index) =>
+              index !== conversationIndex,
+          ),
+        ];
+      });
+    };
+
+    socket.on(
+      "new_message",
+      handleNewMessage,
+    );
+
+    return () => {
+      socket.off(
+        "new_message",
+        handleNewMessage,
+      );
+    };
   }, []);
 
   return (

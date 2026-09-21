@@ -47,6 +47,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      lu: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
 
       created_at: {
         type: Sequelize.DATE,
@@ -65,15 +70,9 @@ module.exports = {
 
     await queryInterface.addIndex("messages", ["Id_users"]);
 
-    await queryInterface.addIndex(
-      "messages",
-      ["Id_propositions_troc"],
-    );
+    await queryInterface.addIndex("messages", ["Id_propositions_troc"]);
 
-    await queryInterface.addIndex(
-      "messages",
-      ["created_at"],
-    );
+    await queryInterface.addIndex("messages", ["created_at"]);
   },
 
   async down(queryInterface) {

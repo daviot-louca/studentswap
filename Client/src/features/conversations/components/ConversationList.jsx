@@ -38,6 +38,7 @@ function ConversationList({
             conversation?.id
           }
           conversation={conversation}
+          unreadCount={conversation?.unreadCount ?? 0}
         />
       ))}
     </div>

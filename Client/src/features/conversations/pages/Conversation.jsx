@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import {
   getConversation,
   getConversationMessages,
-  sendMessage,
 } from "../api/conversations.api";
 
 import { updateProposal } from "../../proposals/api/proposals.api";
@@ -14,6 +13,8 @@ import MessageList from "../components/MessageList";
 import MessageInput from "../components/MessageInput";
 import ProposalsMessage from "../../proposals/pages/ProposalsMessage";
 
+import { getSocket } from "../../../shared/lib/socket";
+
 function Conversation() {
   const { id } = useParams();
 
@@ -21,8 +22,7 @@ function Conversation() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-  const [updatingProposalId, setUpdatingProposalId] =
-    useState(null);
+  const [updatingProposalId, setUpdatingProposalId] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -39,11 +39,10 @@ function Conversation() {
         setIsLoading(true);
         setError("");
 
-        const [conversationData, messagesData] =
-          await Promise.all([
-            getConversation(id),
-            getConversationMessages(id),
-          ]);
+        const [conversationData, messagesData] = await Promise.all([
+          getConversation(id),
+          getConversationMessages(id),
+        ]);
 
         if (cancelled) {
           return;
@@ -59,9 +58,7 @@ function Conversation() {
           loadedMessages = messagesData.data;
         } else if (Array.isArray(messagesData?.messages)) {
           loadedMessages = messagesData.messages;
-        } else if (
-          Array.isArray(messagesData?.data?.messages)
-        ) {
+        } else if (Array.isArray(messagesData?.data?.messages)) {
           loadedMessages = messagesData.data.messages;
         }
 
@@ -78,8 +75,8 @@ function Conversation() {
 
         setError(
           requestError.response?.data?.message ||
-            requestError.response?.data?.error ||
-            "Impossible de récupérer cette conversation.",
+          requestError.response?.data?.error ||
+          "Impossible de récupérer cette conversation.",
         );
       } finally {
         if (!cancelled) {
@@ -95,6 +92,141 @@ function Conversation() {
     };
   }, [id]);
 
+  useEffect(() => {
+    const socket = getSocket();
+
+    console.log("🧩 Conversation socket effect", {
+      conversationId: id,
+      socketId: socket?.id,
+      connected: socket?.connected,
+    });
+
+    if (!socket || !id) {
+      return undefined;
+    }
+
+    const handleNewMessage = (payload) => {
+      console.log(
+        "📨 new_message reçu dans Conversation.jsx :",
+        payload,
+      );
+
+      const message = payload?.message ?? payload;
+
+      if (!message) {
+        return;
+      }
+
+      const messageConversationId =
+        payload?.conversationId ??
+        message?.Id_conversations ??
+        message?.conversationId ??
+        message?.conversation?.Id_conversations;
+
+      if (
+        !messageConversationId ||
+        String(messageConversationId) !== String(id)
+      ) {
+        return;
+      }
+
+      setMessages((currentMessages) => {
+        const messageId = message?.Id_messages;
+
+        if (
+          messageId &&
+          currentMessages.some(
+            (currentMessage) =>
+              String(currentMessage?.Id_messages) ===
+              String(messageId),
+          )
+        ) {
+          return currentMessages;
+        }
+
+        return [...currentMessages, message];
+      });
+    };
+
+    const handleChatError = (payload) => {
+      console.error(
+        "❌ chat_error dans Conversation.jsx :",
+        payload,
+      );
+
+      const message = payload?.message;
+
+      if (message) {
+        setError(message);
+      }
+    };
+
+    const joinConversation = () => {
+      console.log(
+        "📥 Envoi join_conversation :",
+        id,
+      );
+
+      socket.emit("join_conversation", id);
+    };
+
+    socket.on(
+      "new_message",
+      handleNewMessage,
+    );
+
+    socket.on(
+      "chat_error",
+      handleChatError,
+    );
+
+    if (socket.connected) {
+      console.log(
+        "🚀 Socket déjà connecté, join immédiat",
+      );
+
+      joinConversation();
+    } else {
+      console.log(
+        "⏳ Socket pas encore connecté, attente du connect",
+      );
+
+      socket.once(
+        "connect",
+        joinConversation,
+      );
+    }
+
+    return () => {
+      socket.off(
+        "new_message",
+        handleNewMessage,
+      );
+
+      socket.off(
+        "chat_error",
+        handleChatError,
+      );
+
+      socket.off(
+        "connect",
+        joinConversation,
+      );
+
+      if (socket.connected) {
+        console.log(
+          "📤 Envoi leave_conversation :",
+          id,
+        );
+
+        socket.emit(
+          "leave_conversation",
+          id,
+        );
+      }
+    };
+  }, [id]);
+
   const currentUser =
     conversation?.currentUser ??
     conversation?.me ??
@@ -106,41 +238,124 @@ function Conversation() {
     currentUser?.Id_user ??
     null;
 
-  const handleSendMessage = async (content) => {
-    if (!id || !content.trim() || isSending) {
+  const handleSendMessage = (content) => {
+    console.log(
+      "✉️ handleSendMessage appelé :",
+      content,
+    );
+
+    const trimmedContent = content?.trim();
+
+    if (!id || !trimmedContent || isSending) {
+      console.log(
+        "⚠️ Envoi bloqué :",
+        {
+          id,
+          trimmedContent,
+          isSending,
+        },
+      );
+
       return;
     }
 
-    try {
-      setIsSending(true);
-      setError("");
+    const socket = getSocket();
 
-      const newMessage = await sendMessage(
-        id,
-        content.trim(),
+    console.log(
+      "📡 Socket utilisé pour envoyer :",
+      {
+        socketId: socket?.id,
+        connected: socket?.connected,
+        conversationId: id,
+      },
+    );
+
+    if (!socket) {
+      setError(
+        "Connexion temps réel indisponible.",
       );
 
-      if (newMessage) {
-        setMessages((currentMessages) => [
-          ...currentMessages,
-          newMessage,
-        ]);
-      }
-    } catch (requestError) {
+      return;
+    }
+
+    setIsSending(true);
+    setError("");
+
+    const sendMessage = () => {
+      console.log(
+        "📤 Envoi send_message :",
+        {
+          conversationId: id,
+          contenu: trimmedContent,
+          socketId: socket.id,
+          connected: socket.connected,
+        },
+      );
+
+      socket.emit("send_message", {
+        conversationId: id,
+        contenu: trimmedContent,
+      });
+
+      console.log(
+        "✅ socket.emit(send_message) exécuté",
+      );
+
+      setIsSending(false);
+    };
+
+    if (socket.connected) {
+      console.log(
+        "🚀 Socket connecté, envoi immédiat",
+      );
+
+      sendMessage();
+
+      return;
+    }
+
+    console.log(
+      "⏳ Socket non connecté, attente du connect",
+    );
+
+    let timeoutId;
+
+    const handleConnect = () => {
+      console.log(
+        "✅ Socket reconnecté, envoi du message",
+      );
+
+      window.clearTimeout(timeoutId);
+
+      socket.off(
+        "connect",
+        handleConnect,
+      );
+
+      sendMessage();
+    };
+
+    socket.once(
+      "connect",
+      handleConnect,
+    );
+
+    timeoutId = window.setTimeout(() => {
       console.error(
-        "Erreur envoi message :",
-        requestError,
+        "❌ Timeout connexion Socket.IO",
       );
+
+      socket.off(
+        "connect",
+        handleConnect,
+      );
+
+      setIsSending(false);
 
       setError(
-        requestError.response?.data?.message ||
-          requestError.response?.data?.error ||
-          requestError.message ||
-          "Impossible d'envoyer le message.",
+        "Impossible de se connecter au serveur de messagerie.",
       );
-    } finally {
-      setIsSending(false);
-    }
+    }, 5000);
   };
 
   const handleProposalUpdate = async (
@@ -155,10 +370,11 @@ function Conversation() {
       setUpdatingProposalId(proposalId);
       setError("");
 
-      const updatedProposal = await updateProposal(
-        proposalId,
-        statut,
-      );
+      const updatedProposal =
+        await updateProposal(
+          proposalId,
+          statut,
+        );
 
       setMessages((currentMessages) =>
         currentMessages.map((message) => {
@@ -191,9 +407,9 @@ function Conversation() {
 
       setError(
         requestError.response?.data?.message ||
-          requestError.response?.data?.error ||
-          requestError.message ||
-          "Impossible de modifier la proposition.",
+        requestError.response?.data?.error ||
+        requestError.message ||
+        "Impossible de modifier la proposition.",
       );
     } finally {
       setUpdatingProposalId(null);
@@ -204,7 +420,9 @@ function Conversation() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-background px-4 text-text">
         <div className="w-full max-w-md rounded-3xl bg-white p-6 text-center shadow-sm">
-          <div className="text-4xl">⚠️</div>
+          <div className="text-4xl">
+            ⚠️
+          </div>
 
           <h1 className="mt-4 text-lg font-bold">
             Une erreur est survenue
@@ -269,11 +487,14 @@ function Conversation() {
                   >
                     <ProposalsMessage
                       message={message}
-                      currentUserId={currentUserId}
+                      currentUserId={
+                        currentUserId
+                      }
                       isUpdating={
                         String(
                           updatingProposalId,
-                        ) === String(proposalId)
+                        ) ===
+                        String(proposalId)
                       }
                       onAccept={() =>
                         handleProposalUpdate(

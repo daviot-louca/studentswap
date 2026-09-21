@@ -7,7 +7,7 @@ import {
   getUserAvatar,
 } from "../utils/conversations.utils";
 
-function ConversationItem({ conversation }) {
+function ConversationItem({ conversation, unreadCount = 0 }) {
   const navigate = useNavigate();
 
   const id = getConversationId(conversation);
@@ -33,6 +33,8 @@ function ConversationItem({ conversation }) {
     conversation?.updatedAt ??
     conversation?.createdAt ??
     null;
+
+  const unread = Number(unreadCount) || 0;
 
   const handleClick = () => {
     if (!id) {
@@ -76,9 +78,23 @@ function ConversationItem({ conversation }) {
           )}
         </div>
 
-        <p className="mt-1 truncate text-sm text-muted">
-          {preview}
-        </p>
+        <div className="mt-1 flex items-center gap-2">
+          <p
+            className={`min-w-0 flex-1 truncate text-sm ${
+              unread > 0
+                ? "font-semibold text-text"
+                : "text-muted"
+            }`}
+          >
+            {preview}
+          </p>
+
+          {unread > 0 && (
+            <span className="flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-primary px-2 text-xs font-bold text-white">
+              {unread > 99 ? "99+" : unread}
+            </span>
+          )}
+        </div>
       </div>
 
       <span className="text-lg text-muted">

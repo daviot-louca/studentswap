@@ -20,22 +20,26 @@ const initializeSocket = (httpServer) => {
    * Connexion d'un utilisateur
    */
   io.on("connection", (socket) => {
-    console.log(
-      `🔌 Utilisateur connecté : ${socket.user.id} (${socket.id})`
-    );
+    console.log(`🧩 Handler Socket.IO initialisé pour ${socket.id}`);
+
+    socket.onAny((event, ...args) => {
+      console.log(`📡 Événement Socket.IO reçu : ${event}`, args);
+    });
+
+    console.log(`🔌 Utilisateur connecté : ${socket.user.id} (${socket.id})`);
 
     /*
      * Gestion des conversations
      */
+    console.log(`🛠️ Enregistrement conversationSocket pour ${socket.id}`);
+
     conversationSocket(io, socket);
 
     /*
      * Déconnexion
      */
     socket.on("disconnect", (reason) => {
-      console.log(
-        `🔌 Utilisateur déconnecté : ${socket.user.id} (${reason})`
-      );
+      console.log(`🔌 Utilisateur déconnecté : ${socket.user.id} (${reason})`);
     });
   });
 
