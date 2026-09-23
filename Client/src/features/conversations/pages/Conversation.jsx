@@ -10,10 +10,12 @@ import { updateProposal } from "../../proposals/api/proposals.api";
 
 import ConversationHeader from "../components/ConversationHeader";
 import MessageList from "../components/MessageList";
+import MessageBubble from "../components/MessageBubble";
 import MessageInput from "../components/MessageInput";
 import ProposalsMessage from "../../proposals/pages/ProposalsMessage";
 
 import { getSocket } from "../../../shared/lib/socket";
+import client from "../../../shared/lib/api";
 
 function Conversation() {
   const { id } = useParams();
@@ -39,10 +41,11 @@ function Conversation() {
         setIsLoading(true);
         setError("");
 
-        const [conversationData, messagesData] = await Promise.all([
-          getConversation(id),
-          getConversationMessages(id),
-        ]);
+        const [conversationData, messagesData] =
+          await Promise.all([
+            getConversation(id),
+            getConversationMessages(id),
+          ]);
 
         if (cancelled) {
           return;
@@ -58,9 +61,28 @@ function Conversation() {
           loadedMessages = messagesData.data;
         } else if (Array.isArray(messagesData?.messages)) {
           loadedMessages = messagesData.messages;
-        } else if (Array.isArray(messagesData?.data?.messages)) {
-          loadedMessages = messagesData.data.messages;
+        } else if (
+          Array.isArray(messagesData?.data?.messages)
+        ) {
+          loadedMessages =
+            messagesData.data.messages;
         }
+
+        console.log(
+          "📨 Messages chargés depuis l'API :",
+          loadedMessages,
+        );
+
+        loadedMessages.forEach((message) => {
+          console.log(
+            "🖼️ Photo du message chargé :",
+            {
+              id: message?.Id_messages,
+              photo_url: message?.photo_url,
+              contenu: message?.contenu,
+            },
+          );
+        });
 
         setMessages(loadedMessages);
       } catch (requestError) {
@@ -69,8 +91,13 @@ function Conversation() {
         }
 
         console.error(
-          "Erreur récupération conversation :",
+          "❌ Erreur récupération conversation :",
           requestError,
+        );
+
+        console.error(
+          "❌ Réponse serveur conversation :",
+          requestError.response?.data,
         );
 
         setError(
@@ -95,11 +122,14 @@ function Conversation() {
   useEffect(() => {
     const socket = getSocket();
 
-    console.log("🧩 Conversation socket effect", {
-      conversationId: id,
-      socketId: socket?.id,
-      connected: socket?.connected,
-    });
+    console.log(
+      "🧩 Conversation socket effect :",
+      {
+        conversationId: id,
+        socketId: socket?.id,
+        connected: socket?.connected,
+      },
+    );
 
     if (!socket || !id) {
       return undefined;
@@ -111,11 +141,22 @@ function Conversation() {
         payload,
       );
 
-      const message = payload?.message ?? payload;
+      const message =
+        payload?.message ?? payload;
 
       if (!message) {
         return;
       }
+
+      console.log(
+        "🖼️ Nouveau message reçu :",
+        {
+          id: message?.Id_messages,
+          contenu: message?.contenu,
+          photo_url: message?.photo_url,
+          payload,
+        },
+      );
 
       const messageConversationId =
         payload?.conversationId ??
@@ -127,24 +168,42 @@ function Conversation() {
         !messageConversationId ||
         String(messageConversationId) !== String(id)
       ) {
+        console.log(
+          "⚠️ Message ignoré : mauvaise conversation",
+          {
+            messageConversationId,
+            currentConversationId: id,
+          },
+        );
+
         return;
       }
 
       setMessages((currentMessages) => {
-        const messageId = message?.Id_messages;
+        const messageId =
+          message?.Id_messages;
 
         if (
           messageId &&
           currentMessages.some(
             (currentMessage) =>
-              String(currentMessage?.Id_messages) ===
-              String(messageId),
+              String(
+                currentMessage?.Id_messages,
+              ) === String(messageId),
           )
         ) {
+          console.log(
+            "⚠️ Message déjà présent :",
+            messageId,
+          );
+
           return currentMessages;
         }
 
-        return [...currentMessages, message];
+        return [
+          ...currentMessages,
+          message,
+        ];
       });
     };
 
@@ -167,7 +226,10 @@ function Conversation() {
         id,
       );
 
-      socket.emit("join_conversation", id);
+      socket.emit(
+        "join_conversation",
+        id,
+      );
     };
 
     socket.on(
@@ -238,136 +300,410 @@ function Conversation() {
     currentUser?.Id_user ??
     null;
 
-  const handleSendMessage = (content) => {
+  const handleSendMessage = async ({
+    contenu = "",
+    photo = null,
+  }) => {
     console.log(
-      "✉️ handleSendMessage appelé :",
-      content,
+      "========================================",
     );
 
-    const trimmedContent = content?.trim();
+    console.log(
+      "✉️ handleSendMessage appelé",
+    );
 
-    if (!id || !trimmedContent || isSending) {
-      console.log(
-        "⚠️ Envoi bloqué :",
-        {
-          id,
-          trimmedContent,
-          isSending,
-        },
-      );
+    console.log(
+      "📝 Contenu :",
+      contenu,
+    );
 
-      return;
-    }
+    console.log(
+      "📷 Photo :",
+      photo,
+    );
+
+    console.log(
+      "📷 Informations photo :",
+      photo
+        ? {
+          name: photo.name,
+          type: photo.type,
+          size: photo.size,
+          sizeMB: (
+            photo.size /
+            1024 /
+            1024
+          ).toFixed(2),
+          lastModified:
+            photo.lastModified,
+        }
+        : null,
+    );
+
+    console.log(
+      "🆔 Conversation ID :",
+      id,
+    );
+
+    console.log(
+      "⏳ isSending :",
+      isSending,
+    );
+
+    console.log(
+      "========================================",
+    );
+
+    const trimmedContent =
+      contenu?.trim() || "";
 
     const socket = getSocket();
 
     console.log(
-      "📡 Socket utilisé pour envoyer :",
+      "📡 Socket récupéré :",
       {
         socketId: socket?.id,
         connected: socket?.connected,
-        conversationId: id,
       },
     );
 
     if (!socket) {
+      console.error(
+        "❌ Aucun socket disponible.",
+      );
+
       setError(
         "Connexion temps réel indisponible.",
       );
 
-      return;
+      return false;
     }
 
     setIsSending(true);
     setError("");
 
-    const sendMessage = () => {
+    try {
+      let photoUrl = null;
+
+      if (photo) {
+        console.log(
+          "========================================",
+        );
+
+        console.log(
+          "📷 DÉBUT UPLOAD PHOTO",
+        );
+
+        console.log(
+          "📷 Nom :",
+          photo.name,
+        );
+
+        console.log(
+          "📷 Type :",
+          photo.type,
+        );
+
+        console.log(
+          "📷 Taille :",
+          photo.size,
+          "octets",
+        );
+
+        const formData = new FormData();
+
+        formData.append(
+          "photo",
+          photo,
+        );
+
+        console.log(
+          "📦 FormData créé",
+        );
+
+        console.log(
+          "📦 Vérification FormData :",
+        );
+
+        for (const [
+          key,
+          value,
+        ] of formData.entries()) {
+          console.log(
+            "➡️ FormData field :",
+            {
+              key,
+              value:
+                value instanceof File
+                  ? {
+                    name: value.name,
+                    type: value.type,
+                    size: value.size,
+                  }
+                  : value,
+            },
+          );
+        }
+
+        console.log(
+          "🌐 URL upload :",
+          `${import.meta.env.VITE_API_URL ||
+          "http://localhost:3000"
+          }/api/messages/photo`,
+        );
+
+        console.log(
+          "🔑 Token présent :",
+          Boolean(
+            localStorage.getItem(
+              "studentswap_token",
+            ),
+          ),
+        );
+
+        console.log(
+          "📤 Envoi POST /messages/photo...",
+        );
+
+        const response =
+          await client.post(
+            "/messages/photo",
+            formData,
+          );
+
+        console.log(
+          "✅ Réponse upload reçue :",
+          response,
+        );
+
+        console.log(
+          "✅ Status upload :",
+          response.status,
+        );
+
+        console.log(
+          "✅ Data upload :",
+          response.data,
+        );
+
+        photoUrl =
+          response.data?.data?.photo_url ??
+          response.data?.photo_url ??
+          null;
+
+        console.log(
+          "🖼️ photoUrl retournée :",
+          photoUrl,
+        );
+
+        if (!photoUrl) {
+          console.error(
+            "❌ Aucune photo_url dans la réponse serveur.",
+          );
+
+          throw new Error(
+            "Le serveur n'a pas retourné l'URL de la photo.",
+          );
+        }
+
+        console.log(
+          "========================================",
+        );
+
+        console.log(
+          "✅ UPLOAD PHOTO TERMINÉ",
+        );
+
+        console.log(
+          "========================================",
+        );
+      }
+
+      const sendMessage = () => {
+        console.log(
+          "========================================",
+        );
+
+        console.log(
+          "📤 ENVOI SOCKET MESSAGE",
+        );
+
+        console.log(
+          "📤 Payload :",
+          {
+            conversationId: id,
+            contenu: trimmedContent,
+            photo_url: photoUrl,
+          },
+        );
+
+        console.log(
+          "📡 Socket :",
+          {
+            id: socket.id,
+            connected: socket.connected,
+          },
+        );
+
+        socket.emit(
+          "send_message",
+          {
+            conversationId: id,
+            contenu: trimmedContent,
+            photo_url: photoUrl,
+          },
+        );
+
+        console.log(
+          "✅ socket.emit(send_message) exécuté",
+        );
+
+        console.log(
+          "========================================",
+        );
+      };
+
+      if (socket.connected) {
+        console.log(
+          "🚀 Socket connecté, envoi immédiat",
+        );
+
+        sendMessage();
+
+        return true;
+      }
+
       console.log(
-        "📤 Envoi send_message :",
-        {
-          conversationId: id,
-          contenu: trimmedContent,
-          socketId: socket.id,
-          connected: socket.connected,
+        "⏳ Socket non connecté, attente du connect...",
+      );
+
+      await new Promise(
+        (resolve, reject) => {
+          let timeoutId;
+
+          const handleConnect = () => {
+            console.log(
+              "✅ Socket reconnecté.",
+            );
+
+            window.clearTimeout(
+              timeoutId,
+            );
+
+            socket.off(
+              "connect",
+              handleConnect,
+            );
+
+            sendMessage();
+
+            resolve();
+          };
+
+          socket.once(
+            "connect",
+            handleConnect,
+          );
+
+          timeoutId =
+            window.setTimeout(() => {
+              console.error(
+                "❌ Timeout connexion Socket.IO.",
+              );
+
+              socket.off(
+                "connect",
+                handleConnect,
+              );
+
+              reject(
+                new Error(
+                  "Impossible de se connecter au serveur de messagerie.",
+                ),
+              );
+            }, 5000);
         },
       );
 
-      socket.emit("send_message", {
-        conversationId: id,
-        contenu: trimmedContent,
-      });
-
-      console.log(
-        "✅ socket.emit(send_message) exécuté",
-      );
-
-      setIsSending(false);
-    };
-
-    if (socket.connected) {
-      console.log(
-        "🚀 Socket connecté, envoi immédiat",
-      );
-
-      sendMessage();
-
-      return;
-    }
-
-    console.log(
-      "⏳ Socket non connecté, attente du connect",
-    );
-
-    let timeoutId;
-
-    const handleConnect = () => {
-      console.log(
-        "✅ Socket reconnecté, envoi du message",
-      );
-
-      window.clearTimeout(timeoutId);
-
-      socket.off(
-        "connect",
-        handleConnect,
-      );
-
-      sendMessage();
-    };
-
-    socket.once(
-      "connect",
-      handleConnect,
-    );
-
-    timeoutId = window.setTimeout(() => {
+      return true;
+    } catch (requestError) {
       console.error(
-        "❌ Timeout connexion Socket.IO",
+        "========================================",
       );
 
-      socket.off(
-        "connect",
-        handleConnect,
+      console.error(
+        "❌ ERREUR ENVOI MESSAGE",
       );
 
-      setIsSending(false);
+      console.error(
+        "❌ Erreur complète :",
+        requestError,
+      );
+
+      console.error(
+        "❌ Axios error :",
+        {
+          message:
+            requestError.message,
+          code:
+            requestError.code,
+          status:
+            requestError.response?.status,
+        },
+      );
+
+      console.error(
+        "❌ Réponse serveur :",
+        requestError.response?.data,
+      );
+
+      console.error(
+        "❌ Headers réponse serveur :",
+        requestError.response?.headers,
+      );
+
+      console.error(
+        "❌ Configuration Axios :",
+        requestError.config,
+      );
+
+      console.error(
+        "========================================",
+      );
 
       setError(
-        "Impossible de se connecter au serveur de messagerie.",
+        requestError.response?.data?.message ||
+        requestError.response?.data?.error ||
+        requestError.message ||
+        "Impossible d'envoyer le message.",
       );
-    }, 5000);
+
+      return false;
+    } finally {
+      console.log(
+        "🔚 Fin handleSendMessage",
+      );
+
+      setIsSending(false);
+    }
   };
 
   const handleProposalUpdate = async (
     proposalId,
     statut,
   ) => {
-    if (!proposalId || updatingProposalId) {
+    if (
+      !proposalId ||
+      updatingProposalId
+    ) {
       return;
     }
 
     try {
-      setUpdatingProposalId(proposalId);
+      setUpdatingProposalId(
+        proposalId,
+      );
+
       setError("");
 
       const updatedProposal =
@@ -376,28 +712,34 @@ function Conversation() {
           statut,
         );
 
-      setMessages((currentMessages) =>
-        currentMessages.map((message) => {
-          const messageProposalId =
-            message?.proposition
-              ?.Id_propositions_troc;
+      setMessages(
+        (currentMessages) =>
+          currentMessages.map(
+            (message) => {
+              const messageProposalId =
+                message?.proposition
+                  ?.Id_propositions_troc;
 
-          if (
-            String(messageProposalId) !==
-            String(proposalId)
-          ) {
-            return message;
-          }
+              if (
+                String(
+                  messageProposalId,
+                ) !==
+                String(proposalId)
+              ) {
+                return message;
+              }
 
-          return {
-            ...message,
-            proposition: {
-              ...message.proposition,
-              ...(updatedProposal || {}),
-              statut,
+              return {
+                ...message,
+                proposition: {
+                  ...message.proposition,
+                  ...(updatedProposal ||
+                    {}),
+                  statut,
+                },
+              };
             },
-          };
-        }),
+          ),
       );
     } catch (requestError) {
       console.error(
@@ -412,7 +754,9 @@ function Conversation() {
         "Impossible de modifier la proposition.",
       );
     } finally {
-      setUpdatingProposalId(null);
+      setUpdatingProposalId(
+        null,
+      );
     }
   };
 
@@ -468,10 +812,20 @@ function Conversation() {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {messages.map((message) => {
               const proposal =
                 message?.proposition;
+
+              console.log(
+                "🖼️ Rendu message Conversation :",
+                {
+                  id: message?.Id_messages,
+                  contenu: message?.contenu,
+                  photo_url: message?.photo_url,
+                  message,
+                },
+              );
 
               if (proposal) {
                 const proposalId =
@@ -494,7 +848,9 @@ function Conversation() {
                         String(
                           updatingProposalId,
                         ) ===
-                        String(proposalId)
+                        String(
+                          proposalId,
+                        )
                       }
                       onAccept={() =>
                         handleProposalUpdate(
@@ -514,11 +870,14 @@ function Conversation() {
               }
 
               return (
-                <MessageList
-                  key={message?.Id_messages}
-                  messages={[message]}
-                  currentUser={currentUser}
-                  isLoading={false}
+                <MessageBubble
+                  key={
+                    message?.Id_messages
+                  }
+                  message={message}
+                  currentUser={
+                    currentUser
+                  }
                 />
               );
             })}

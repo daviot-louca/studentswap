@@ -50,6 +50,7 @@ app.use(
     path.resolve(process.cwd(), "uploads"),
   ),
 );
+
 app.use("/api", apiLimiter);
 
 app.use(

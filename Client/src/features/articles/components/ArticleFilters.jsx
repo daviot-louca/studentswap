@@ -17,44 +17,44 @@ function getItemId(item, type = "") {
   if (type === "category") {
     return String(
       item.Id_categories ??
-        item.Id_category ??
-        item.id ??
-        "",
+      item.Id_category ??
+      item.id ??
+      "",
     );
   }
 
   if (type === "subcategory") {
     return String(
       item.Id_subCategories ??
-        item.Id_subCategory ??
-        item.id ??
-        "",
+      item.Id_subCategory ??
+      item.id ??
+      "",
     );
   }
 
   if (type === "state") {
     return String(
       item.Id_etatArticle ??
-        item.id ??
-        "",
+      item.id ??
+      "",
     );
   }
 
   if (type === "region") {
     return String(
       item.Id_regions ??
-        item.Id_region ??
-        item.id ??
-        "",
+      item.Id_region ??
+      item.id ??
+      "",
     );
   }
 
   if (type === "city") {
     return String(
       item.Id_villes ??
-        item.Id_ville ??
-        item.id ??
-        "",
+      item.Id_ville ??
+      item.id ??
+      "",
     );
   }
 
@@ -139,21 +139,61 @@ function ArticleFilters({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
+      className="
+        fixed inset-0 z-50
+        flex items-end justify-center
+        bg-black/50
+        p-0
+        backdrop-blur-[2px]
+        sm:items-center
+        sm:p-4
+      "
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose?.();
         }
       }}
     >
-      <div className="max-h-[90vh] w-full overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl sm:max-w-lg sm:rounded-3xl">
-        <div className="mb-6 flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-text">
+      {/* MODAL */}
+      <div
+        className="
+          flex
+          max-h-[94dvh]
+          w-full
+          flex-col
+          overflow-hidden
+          rounded-t-[28px]
+          bg-white
+          shadow-2xl
+
+          sm:max-h-[90dvh]
+          sm:max-w-2xl
+          sm:rounded-3xl
+        "
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="article-filters-title"
+      >
+        {/* HEADER */}
+        <div
+          className="
+            flex shrink-0
+            items-start justify-between
+            gap-4
+            border-b border-gray-100
+            px-5 py-4
+            sm:px-6 sm:py-5
+          "
+        >
+          <div className="min-w-0">
+            <h2
+              id="article-filters-title"
+              className="text-lg font-bold text-text sm:text-xl"
+            >
               Filtrer les articles
             </h2>
 
-            <p className="mt-1 text-sm text-muted">
+            <p className="mt-1 max-w-md text-xs leading-5 text-muted sm:text-sm">
               Affine les articles que tu souhaites découvrir.
             </p>
           </div>
@@ -161,314 +201,469 @@ function ArticleFilters({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xl text-gray-600 transition hover:bg-gray-200"
+            className="
+              flex
+              h-10 w-10
+              shrink-0
+              items-center justify-center
+              rounded-full
+              bg-gray-100
+              text-xl
+              text-gray-600
+              transition
+
+              hover:bg-gray-200
+              active:scale-95
+            "
             aria-label="Fermer les filtres"
           >
             ×
           </button>
         </div>
 
-        <form
-          onSubmit={handleApply}
-          className="space-y-5"
+        {/* CONTENU SCROLLABLE */}
+        <div
+          className="
+            min-h-0
+            flex-1
+            overflow-y-auto
+            overscroll-contain
+          "
         >
-          <div>
-            <label
-              htmlFor="article-filter-search"
-              className="mb-2 block text-sm font-semibold text-text"
-            >
-              Recherche
-            </label>
-
-            <input
-              id="article-filter-search"
-              type="search"
-              value={filters.search}
-              onChange={(event) =>
-                updateFilter(
-                  "search",
-                  event.target.value,
-                )
-              }
-              placeholder="Rechercher un article..."
-              className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <form
+            id="article-filters-form"
+            onSubmit={handleApply}
+            className="
+              space-y-5
+              px-5 py-5
+              sm:px-6 sm:py-6
+            "
+          >
+            {/* RECHERCHE */}
             <div>
               <label
-                htmlFor="article-filter-category"
+                htmlFor="article-filter-search"
                 className="mb-2 block text-sm font-semibold text-text"
               >
-                Catégorie
+                Recherche
               </label>
 
-              <select
-                id="article-filter-category"
-                value={filters.category}
+              <input
+                id="article-filter-search"
+                type="search"
+                value={filters.search}
                 onChange={(event) =>
                   updateFilter(
-                    "category",
+                    "search",
                     event.target.value,
                   )
                 }
-                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-              >
-                <option value="">
-                  Toutes
-                </option>
+                placeholder="Rechercher un article..."
+                className="
+                  h-12
+                  w-full
+                  rounded-2xl
+                  border border-gray-200
+                  bg-white
+                  px-4
+                  text-sm
+                  text-text
+                  outline-none
+                  transition
 
-                {categories.map(
-                  (category, index) => {
-                    const id =
-                      getItemId(
-                        category,
-                        "category",
-                      ) ||
-                      `category-${index}`;
+                  placeholder:text-gray-400
 
-                    const name =
-                      getItemName(category);
-
-                    return (
-                      <option
-                        key={`${id}-category-${index}`}
-                        value={id}
-                      >
-                        {name ||
-                          "Catégorie sans nom"}
-                      </option>
-                    );
-                  },
-                )}
-              </select>
+                  focus:border-primary
+                  focus:ring-2
+                  focus:ring-primary/10
+                "
+              />
             </div>
 
-            <div>
-              <label
-                htmlFor="article-filter-subcategory"
-                className="mb-2 block text-sm font-semibold text-text"
-              >
-                Sous-catégorie
-              </label>
+            {/* FILTRES */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {/* CATEGORIE */}
+              <div>
+                <label
+                  htmlFor="article-filter-category"
+                  className="mb-2 block text-sm font-semibold text-text"
+                >
+                  Catégorie
+                </label>
 
-              <select
-                id="article-filter-subcategory"
-                value={filters.Id_subCategories}
-                onChange={(event) =>
-                  updateFilter(
-                    "Id_subCategories",
-                    event.target.value,
-                  )
-                }
-                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-              >
-                <option value="">
-                  Toutes
-                </option>
+                <select
+                  id="article-filter-category"
+                  value={filters.category}
+                  onChange={(event) =>
+                    updateFilter(
+                      "category",
+                      event.target.value,
+                    )
+                  }
+                  className="
+                    h-12
+                    w-full
+                    rounded-2xl
+                    border border-gray-200
+                    bg-white
+                    px-4
+                    text-sm
+                    text-text
+                    outline-none
+                    transition
 
-                {subCategories.map(
-                  (
-                    subCategory,
-                    index,
-                  ) => {
-                    const id =
-                      getItemId(
-                        subCategory,
-                        "subcategory",
-                      ) ||
-                      `subcategory-${index}`;
+                    focus:border-primary
+                    focus:ring-2
+                    focus:ring-primary/10
+                  "
+                >
+                  <option value="">Toutes</option>
 
-                    const name =
-                      getItemName(
-                        subCategory,
+                  {categories.map(
+                    (category, index) => {
+                      const id =
+                        getItemId(
+                          category,
+                          "category",
+                        ) ||
+                        `category-${index}`;
+
+                      const name =
+                        getItemName(category);
+
+                      return (
+                        <option
+                          key={`${id}-category-${index}`}
+                          value={id}
+                        >
+                          {name ||
+                            "Catégorie sans nom"}
+                        </option>
                       );
+                    },
+                  )}
+                </select>
+              </div>
 
-                    return (
-                      <option
-                        key={`${id}-subcategory-${index}`}
-                        value={id}
-                      >
-                        {name ||
-                          "Sous-catégorie sans nom"}
-                      </option>
-                    );
-                  },
-                )}
-              </select>
+              {/* SOUS-CATEGORIE */}
+              <div>
+                <label
+                  htmlFor="article-filter-subcategory"
+                  className="mb-2 block text-sm font-semibold text-text"
+                >
+                  Sous-catégorie
+                </label>
+
+                <select
+                  id="article-filter-subcategory"
+                  value={filters.Id_subCategories}
+                  onChange={(event) =>
+                    updateFilter(
+                      "Id_subCategories",
+                      event.target.value,
+                    )
+                  }
+                  className="
+                    h-12
+                    w-full
+                    rounded-2xl
+                    border border-gray-200
+                    bg-white
+                    px-4
+                    text-sm
+                    text-text
+                    outline-none
+                    transition
+
+                    focus:border-primary
+                    focus:ring-2
+                    focus:ring-primary/10
+                  "
+                >
+                  <option value="">Toutes</option>
+
+                  {subCategories.map(
+                    (
+                      subCategory,
+                      index,
+                    ) => {
+                      const id =
+                        getItemId(
+                          subCategory,
+                          "subcategory",
+                        ) ||
+                        `subcategory-${index}`;
+
+                      const name =
+                        getItemName(
+                          subCategory,
+                        );
+
+                      return (
+                        <option
+                          key={`${id}-subcategory-${index}`}
+                          value={id}
+                        >
+                          {name ||
+                            "Sous-catégorie sans nom"}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
+              </div>
+
+              {/* ETAT */}
+              <div>
+                <label
+                  htmlFor="article-filter-state"
+                  className="mb-2 block text-sm font-semibold text-text"
+                >
+                  État
+                </label>
+
+                <select
+                  id="article-filter-state"
+                  value={filters.Id_etatArticle}
+                  onChange={(event) =>
+                    updateFilter(
+                      "Id_etatArticle",
+                      event.target.value,
+                    )
+                  }
+                  className="
+                    h-12
+                    w-full
+                    rounded-2xl
+                    border border-gray-200
+                    bg-white
+                    px-4
+                    text-sm
+                    text-text
+                    outline-none
+                    transition
+
+                    focus:border-primary
+                    focus:ring-2
+                    focus:ring-primary/10
+                  "
+                >
+                  <option value="">Tous</option>
+
+                  {etatsArticles.map(
+                    (etat, index) => {
+                      const id =
+                        getItemId(
+                          etat,
+                          "state",
+                        ) ||
+                        `state-${index}`;
+
+                      const name =
+                        getItemName(etat);
+
+                      return (
+                        <option
+                          key={`${id}-state-${index}`}
+                          value={id}
+                        >
+                          {name ||
+                            "État sans nom"}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
+              </div>
+
+              {/* REGION */}
+              <div>
+                <label
+                  htmlFor="article-filter-region"
+                  className="mb-2 block text-sm font-semibold text-text"
+                >
+                  Région
+                </label>
+
+                <select
+                  id="article-filter-region"
+                  value={filters.region}
+                  onChange={(event) =>
+                    updateFilter(
+                      "region",
+                      event.target.value,
+                    )
+                  }
+                  className="
+                    h-12
+                    w-full
+                    rounded-2xl
+                    border border-gray-200
+                    bg-white
+                    px-4
+                    text-sm
+                    text-text
+                    outline-none
+                    transition
+
+                    focus:border-primary
+                    focus:ring-2
+                    focus:ring-primary/10
+                  "
+                >
+                  <option value="">Toutes</option>
+
+                  {regions.map(
+                    (region, index) => {
+                      const id =
+                        getItemId(
+                          region,
+                          "region",
+                        ) ||
+                        `region-${index}`;
+
+                      const name =
+                        getItemName(region);
+
+                      return (
+                        <option
+                          key={`${id}-region-${index}`}
+                          value={id}
+                        >
+                          {name ||
+                            "Région sans nom"}
+                        </option>
+                      );
+                    },
+                  )}
+                </select>
+              </div>
             </div>
 
+            {/* VILLE */}
             <div>
               <label
-                htmlFor="article-filter-state"
+                htmlFor="article-filter-city"
                 className="mb-2 block text-sm font-semibold text-text"
               >
-                État
+                Ville
               </label>
 
               <select
-                id="article-filter-state"
-                value={filters.Id_etatArticle}
+                id="article-filter-city"
+                value={filters.Id_villes}
                 onChange={(event) =>
                   updateFilter(
-                    "Id_etatArticle",
+                    "Id_villes",
                     event.target.value,
                   )
                 }
-                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                className="
+                  h-12
+                  w-full
+                  rounded-2xl
+                  border border-gray-200
+                  bg-white
+                  px-4
+                  text-sm
+                  text-text
+                  outline-none
+                  transition
+
+                  focus:border-primary
+                  focus:ring-2
+                  focus:ring-primary/10
+                "
               >
                 <option value="">
-                  Tous
+                  Toutes les villes
                 </option>
 
-                {etatsArticles.map(
-                  (etat, index) => {
+                {villes.map(
+                  (ville, index) => {
                     const id =
                       getItemId(
-                        etat,
-                        "state",
+                        ville,
+                        "city",
                       ) ||
-                      `state-${index}`;
+                      `city-${index}`;
 
                     const name =
-                      getItemName(etat);
+                      getItemName(ville);
 
                     return (
                       <option
-                        key={`${id}-state-${index}`}
+                        key={`${id}-city-${index}`}
                         value={id}
                       >
                         {name ||
-                          "État sans nom"}
+                          "Ville sans nom"}
                       </option>
                     );
                   },
                 )}
               </select>
             </div>
-
-            <div>
-              <label
-                htmlFor="article-filter-region"
-                className="mb-2 block text-sm font-semibold text-text"
-              >
-                Région
-              </label>
-
-              <select
-                id="article-filter-region"
-                value={filters.region}
-                onChange={(event) =>
-                  updateFilter(
-                    "region",
-                    event.target.value,
-                  )
-                }
-                className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-              >
-                <option value="">
-                  Toutes
-                </option>
-
-                {regions.map(
-                  (region, index) => {
-                    const id =
-                      getItemId(
-                        region,
-                        "region",
-                      ) ||
-                      `region-${index}`;
-
-                    const name =
-                      getItemName(region);
-
-                    const value =
-                      region?.nom ??
-                      region?.name ??
-                      id;
-
-                    return (
-                      <option
-                        key={`${id}-region-${index}`}
-                        value={value}
-                      >
-                        {name ||
-                          "Région sans nom"}
-                      </option>
-                    );
-                  },
-                )}
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="article-filter-city"
-              className="mb-2 block text-sm font-semibold text-text"
-            >
-              Ville
-            </label>
-
-            <select
-              id="article-filter-city"
-              value={filters.Id_villes}
-              onChange={(event) =>
-                updateFilter(
-                  "Id_villes",
-                  event.target.value,
-                )
-              }
-              className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-            >
-              <option value="">
-                Toutes les villes
-              </option>
-
-              {villes.map(
-                (ville, index) => {
-                  const id =
-                    getItemId(
-                      ville,
-                      "city",
-                    ) ||
-                    `city-${index}`;
-
-                  const name =
-                    getItemName(ville);
-
-                  return (
-                    <option
-                      key={`${id}-city-${index}`}
-                      value={id}
-                    >
-                      {name ||
-                        "Ville sans nom"}
-                    </option>
-                  );
-                },
-              )}
-            </select>
-          </div>
-
-          <div className="flex gap-3 border-t border-gray-100 pt-5">
+          </form>
+        </div>
+        <div
+          className="
+            shrink-0
+            border-t border-gray-100
+            bg-white
+            px-5 py-6 pb-25
+            sm:px-6
+          "
+        >
+          <div className="flex flex-col-reverse gap-3 sm:flex-row">
             <button
               type="button"
               onClick={handleReset}
-              className="flex-1 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-text transition hover:bg-gray-50"
+              className="
+                h-12
+                w-full
+                rounded-2xl
+                border border-gray-200
+                bg-white
+                px-4
+                text-sm
+                font-semibold
+                text-text
+                transition
+
+                hover:bg-gray-50
+                active:scale-[0.98]
+
+                sm:flex-1
+              "
             >
               Réinitialiser
             </button>
 
             <button
               type="submit"
-              className="flex-1 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark"
+              form="article-filters-form"
+              className="
+                h-12
+                w-full
+                rounded-2xl
+                bg-primary
+                px-4
+                text-sm
+                font-semibold
+                text-text
+                transition
+
+                hover:bg-primary-dark
+                active:scale-[0.98]
+
+                sm:flex-1
+              "
             >
               Appliquer
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

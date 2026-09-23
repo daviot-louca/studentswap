@@ -18,6 +18,7 @@ import reports from "../modules/reports/reports.routes.js";
 import notifications from "../modules/notifications/notifications.routes.js";
 import notations from "../modules/notations/notations.routes.js";
 import ArticlesVus from "../modules/ArticlesVus/articlesVus.routes.js";
+import messages from "../chats/messages/messages.routes.js"
 const router = Router();
 
 router.get("/", (req, res) => {
@@ -46,4 +47,6 @@ router.use("/reports", reports);
 router.use("/notifications",notifications)
 router.use("/notations",notations)
 router.use("/articlesVus",ArticlesVus)
+router.use("/messages", messages);
+
 export default router;

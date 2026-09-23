@@ -15,7 +15,7 @@ function ArticleDetailHeader({
           ←
         </button>
   
-        <h1 className="text-base font-bold text-text">
+        <h1 className="text-base font-bold text-rose">
           Détail de l'article
         </h1>
   

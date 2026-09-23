@@ -1,0 +1,24 @@
+"filename", "language", "JSON", "JavaScript", "JavaScript JSX", "comment", "blank", "total"
+"/Users/loucadaviot/Desktop/studentswap/Client/package-lock.json", "JSON", 86, 0, 0, 0, 0, 86
+"/Users/loucadaviot/Desktop/studentswap/Client/package.json", "JSON", 1, 0, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/components/ConversationItem.jsx", "JavaScript JSX", 0, 0, 14, 0, 2, 16
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/components/ConversationList.jsx", "JavaScript JSX", 0, 0, 1, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/components/MessageBubble.jsx", "JavaScript JSX", 0, 0, 27, 0, 4, 31
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/components/MessageInput.jsx", "JavaScript JSX", 0, 0, 77, 0, 13, 90
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/pages/Conversation.jsx", "JavaScript JSX", 0, 0, 478, 0, 102, 580
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/conversations/pages/Conversations.jsx", "JavaScript JSX", 0, 0, 81, 0, 16, 97
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/api.js", "JavaScript", 0, 28, 0, 7, 5, 40
+"/Users/loucadaviot/Desktop/studentswap/Client/src/shared/lib/socket.js", "JavaScript", 0, 62, 0, 0, 23, 85
+"/Users/loucadaviot/Desktop/studentswap/backend/database/migrations/018-create-messages.cjs", "JavaScript", 0, 3, 0, 0, 1, 4
+"/Users/loucadaviot/Desktop/studentswap/backend/src/app.js", "JavaScript", 0, 0, 0, 0, 1, 1
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/conversation.socket.js", "JavaScript", 0, 39, 0, 36, 27, 102
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/messages/messages.controller.js", "JavaScript", 0, 18, 0, 0, 4, 22
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/messages/messages.routes.js", "JavaScript", 0, 102, 0, 0, 22, 124
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/messages/messages.service.js", "JavaScript", 0, 23, 0, 0, 8, 31
+"/Users/loucadaviot/Desktop/studentswap/backend/src/chats/socket.js", "JavaScript", 0, 1, 0, 0, 4, 5
+"/Users/loucadaviot/Desktop/studentswap/backend/src/models/Messages.js", "JavaScript", 0, 9, 0, 0, -1, 8
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.controller.js", "JavaScript", 0, -3, 0, 0, 1, -2
+"/Users/loucadaviot/Desktop/studentswap/backend/src/modules/conversations/conversations.service.js", "JavaScript", 0, -55, 0, 0, 9, -46
+"/Users/loucadaviot/Desktop/studentswap/backend/src/routes/index.routes.js", "JavaScript", 0, 2, 0, 0, 1, 3
+"/Users/loucadaviot/Desktop/studentswap/backend/src/server.js", "JavaScript", 0, 8, 0, 0, 4, 12
+"Total", "-", 87, 237, 678, 43, 246, 1291

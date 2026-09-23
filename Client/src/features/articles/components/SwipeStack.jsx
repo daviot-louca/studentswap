@@ -170,11 +170,11 @@ const SwipeStack = forwardRef(function SwipeStack(
 
       {dragX !== 0 && (
         <div
-          className={`pointer-events-none absolute left-5 top-5 rounded-xl px-4 py-2 text-sm font-bold uppercase tracking-wide text-white shadow-lg ${
+          className={`pointer-events-none absolute left-5 top-5 rounded-xl px-4 py-2 text-sm font-bold uppercase tracking-wide text-white ${
             dragX > 0 ? "bg-accent" : "bg-red-500"
           }`}
         >
-          {dragX > 0 ? "Troc" : "Passer"}
+          {dragX > 0 ? <img src="/images/MascotteMatch.webp" alt="" /> : "Passer"}
         </div>
       )}
     </div>

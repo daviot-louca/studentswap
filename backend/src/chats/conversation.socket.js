@@ -54,22 +54,37 @@ const conversationSocket = (io, socket) => {
   /*
    * Envoyer un message
    */
-  socket.on("send_message", async ({ conversationId, contenu }) => {
+  socket.on("send_message", async ({ conversationId, contenu, photo_url }) => {
     console.log(
-      `📥 send_message reçu : socket=${socket.id}, conversation=${conversationId}, contenu=${JSON.stringify(contenu)}`,
+      `📥 send_message reçu : socket=${socket.id}, conversation=${conversationId}, contenu=${JSON.stringify(contenu)}, photo_url=${JSON.stringify(photo_url)}`,
     );
 
     try {
       const userId = socket.user.id;
 
-      if (!conversationId || !contenu?.trim()) {
-        console.log("❌ Conversation ou contenu manquant");
+      const trimmedContent = contenu?.trim() || "";
+
+      const trimmedPhotoUrl = photo_url?.trim() || null;
+
+      /*
+       * Un message peut contenir :
+       * - du texte
+       * - une photo
+       * - ou les deux
+       */
+      if (!conversationId || (!trimmedContent && !trimmedPhotoUrl)) {
+        console.log("❌ Conversation, contenu ou photo manquant");
 
         return socket.emit("chat_error", {
-          message: "La conversation et le contenu sont obligatoires.",
+          message:
+            "La conversation et le contenu ou la photo sont obligatoires.",
         });
       }
 
+      /*
+       * Vérification que l'utilisateur
+       * participe bien à la conversation
+       */
       const participant = await ConversationParticipant.findOne({
         where: {
           Id_conversations: conversationId,
@@ -87,19 +102,44 @@ const conversationSocket = (io, socket) => {
         });
       }
 
+      /*
+       * Vérification avant insertion
+       */
+      console.log("💾 Création message avec :", {
+        conversationId,
+        userId,
+        contenu: trimmedContent,
+        photo_url: trimmedPhotoUrl,
+      });
+
+      /*
+       * Création du message
+       */
       const message = await Messages.create({
         Id_conversations: conversationId,
+
         Id_users: userId,
-        contenu: contenu.trim(),
+
+        contenu: trimmedContent || null,
+
+        photo_url: trimmedPhotoUrl,
+
         lu: false,
+
         created_at: new Date(),
+
         updated_at: new Date(),
       });
 
       console.log(
-        `💾 Message créé : id=${message.Id_messages}, conversation=${conversationId}, user=${userId}`,
+        `💾 Message créé : id=${message.Id_messages}, conversation=${conversationId}, user=${userId}, photo_url=${JSON.stringify(message.photo_url)}`,
       );
 
+      /*
+       * On recharge le message depuis
+       * la base avec les informations
+       * de l'utilisateur.
+       */
       const messageWithUser = await Messages.findByPk(message.Id_messages, {
         include: [
           {
@@ -109,21 +149,46 @@ const conversationSocket = (io, socket) => {
         ],
       });
 
+      /*
+       * Vérification du résultat récupéré
+       */
+      console.log("🔎 Message récupéré depuis la DB :", {
+        id: messageWithUser?.Id_messages,
+
+        contenu: messageWithUser?.contenu,
+
+        photo_url: messageWithUser?.photo_url,
+      });
+
+      /*
+       * Payload envoyé au frontend
+       */
       const payload = {
         message: messageWithUser,
+
         senderId: userId,
+
         conversationId,
       };
 
-      console.log(
-        `📤 new_message envoyé : conversation=${conversationId}, room=conversation:${conversationId}`,
-      );
+      console.log("📤 new_message envoyé avec :", {
+        conversationId,
 
+        messageId: messageWithUser?.Id_messages,
+
+        photo_url: messageWithUser?.photo_url,
+      });
+
+      /*
+       * Envoi à tous les utilisateurs
+       * présents dans la conversation.
+       */
       io.to(`conversation:${conversationId}`).emit("new_message", payload);
 
       /*
        * Sécurité supplémentaire :
-       * l'expéditeur reçoit également directement le message.
+       * l'expéditeur reçoit également
+       * directement le message.
        */
       socket.emit("new_message", payload);
     } catch (error) {

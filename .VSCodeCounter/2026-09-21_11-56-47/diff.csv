@@ -1,0 +1,6 @@
+"filename", "language", "PostCSS", "JavaScript JSX", "comment", "blank", "total"
+"/Users/loucadaviot/Desktop/studentswap/Client/src/app/index.css", "PostCSS", 1, 0, 0, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/components/ArticleCard.jsx", "JavaScript JSX", 0, 53, 0, 4, 57
+"/Users/loucadaviot/Desktop/studentswap/Client/src/features/articles/pages/Home.jsx", "JavaScript JSX", 0, 0, 1, 0, 1
+"/Users/loucadaviot/Desktop/studentswap/Client/src/user/layout/UserLayout.jsx", "JavaScript JSX", 0, 2, 0, 0, 2
+"Total", "-", 1, 55, 1, 4, 61

@@ -30,6 +30,10 @@ const Messages = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    photo_url:{
+      type:DataTypes.TEXT,
+      allowNull:true,
+    },
     lu: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

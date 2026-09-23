@@ -1,18 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&display=swap");
+
 @import "tailwindcss";
 
 @theme {
   /* Couleurs */
-  --color-primary: #635bff;
-  --color-primary-dark: #5147d9;
-  --color-accent: #34d399;
-  --color-background: #f8f9fc;
-  --color-text: #171923;
-  --color-muted: #667085;
+  --color-primary: #ffe14d; /* jaune */
+
+  --color-primary-dark: #5147d9; /* violet */
+
+  --color-rose: #ff6ad5; /* rose */
+
+  --color-background: #2b1fff; /* bleu */
+
+  --color-text: #0e0b1f; /* noir / violet très foncé */
+
+  --color-muted: #0e0b1f; /* noir / violet très foncé */
 
   /* Typographie */
-  --font-sans: "Plus Jakarta Sans", sans-serif;
-  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Unbounded", sans-serif;
 
   --text-display: 2rem;
   --text-h2: 1.5rem;
@@ -20,4 +26,35 @@
   --text-body: 1rem;
   --text-small: 0.875rem;
   --text-caption: 0.75rem;
+}
+
+/* Police principale */
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+/* Titres */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Unbounded", sans-serif;
+}
+
+/* Texte courant et éléments textuels */
+p,
+ul,
+ol,
+li,
+span,
+a,
+button,
+input,
+textarea,
+select,
+option,
+label {
+  font-family: "DM Sans", sans-serif;
 }

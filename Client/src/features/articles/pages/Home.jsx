@@ -1,103 +1,140 @@
 import { useEffect, useRef, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+
 import SwipeStack from "../components/SwipeStack";
 import SwipeActions from "../components/SwipeActions";
-import HomeFilters from "../components/HomeFilter";
 import { getSwipeArticles } from "../api/articles.api";
 import ProposalModal from "../../proposals/components/ProposalModal";
+
 import {
   getFavorite,
   addFavorite,
   removeFavorite,
 } from "../../favorites/api/favorites.api";
 
-const EMPTY_FILTERS = {
-  search: "",
-  category: "",
-  Id_subCategories: "",
-  Id_etatArticle: "",
-  region: "",
-  Id_villes: "",
-};
-
 function Home() {
+  const outletContext = useOutletContext();
+  const filters = outletContext?.filters || {};
+
   const swipeStackRef = useRef(null);
 
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filters, setFilters] = useState(EMPTY_FILTERS);
+  const [loading, setLoading] =
+    useState(true);
+  const [error, setError] =
+    useState(null);
 
-  const [currentArticle, setCurrentArticle] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [favoriteLoading, setFavoriteLoading] = useState(false);
-  const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
+  const [currentArticle, setCurrentArticle] =
+    useState(null);
 
-  const loadArticles = async (activeFilters = EMPTY_FILTERS) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const [isFavorite, setIsFavorite] =
+    useState(false);
 
-      const data = await getSwipeArticles(activeFilters);
+  const [favoriteLoading, setFavoriteLoading] =
+    useState(false);
 
-      console.log("Articles pour le swipe :", data);
-
-      setArticles(data);
-      setCurrentArticle(null);
-      setIsFavorite(false);
-    } catch (err) {
-      console.error(
-        "Erreur lors du chargement des articles :",
-        err,
-      );
-
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "Impossible de charger les articles.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [
+    isProposalModalOpen,
+    setIsProposalModalOpen,
+  ] = useState(false);
 
   useEffect(() => {
-    loadArticles();
-  }, []);
+    const loadArticles = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-  const handleFiltersApply = (newFilters) => {
-    const nextFilters = {
-      ...EMPTY_FILTERS,
-      ...(newFilters || {}),
+        const data =
+          await getSwipeArticles(filters);
+
+        console.log(
+          "Articles pour le swipe avec filtres :",
+          {
+            filters,
+            articles: data,
+          },
+        );
+
+        setArticles(data);
+      } catch (err) {
+        console.error(
+          "Erreur lors du chargement des articles :",
+          err,
+        );
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Impossible de charger les articles.",
+        );
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setFilters(nextFilters);
-    loadArticles(nextFilters);
-  };
+    loadArticles();
+  }, [filters]);
 
-  const handleArticleChange = async (article) => {
-    setCurrentArticle(article);
-    setIsFavorite(false);
-
-    if (!article?.Id_articles) {
+  /*
+   * Bloque le scroll de la page
+   * lorsque le modal est ouvert.
+   */
+  useEffect(() => {
+    if (!isProposalModalOpen) {
       return;
     }
 
-    try {
-      const favorite = await getFavorite(article.Id_articles);
+    const previousOverflow =
+      document.body.style.overflow;
 
-      setIsFavorite(Boolean(favorite));
-    } catch (err) {
-      if (err.response?.status !== 404) {
-        console.error(
-          "Erreur vérification favori :",
-          err,
-        );
+    document.body.style.overflow =
+      "hidden";
+
+    return () => {
+      document.body.style.overflow =
+        previousOverflow;
+    };
+  }, [isProposalModalOpen]);
+
+  const handleArticleChange =
+    async (article) => {
+      setCurrentArticle(article);
+      setIsFavorite(false);
+
+      if (!article?.Id_articles) {
+        return;
       }
-    }
-  };
 
-  const handleSwipe = (direction, article) => {
-    console.log("Swipe :", direction, article);
+      try {
+        const favorite =
+          await getFavorite(
+            article.Id_articles,
+          );
+
+        setIsFavorite(
+          Boolean(favorite),
+        );
+      } catch (err) {
+        if (
+          err.response?.status !== 404
+        ) {
+          console.error(
+            "Erreur vérification favori :",
+            err,
+          );
+        }
+      }
+    };
+
+  const handleSwipe = (
+    direction,
+    article,
+  ) => {
+    console.log(
+      "Swipe :",
+      direction,
+      article,
+    );
 
     if (direction === "right") {
       setCurrentArticle(article);
@@ -109,35 +146,45 @@ function Home() {
     swipeStackRef.current?.pass();
   };
 
-  const handleFavorite = async () => {
-    if (!currentArticle?.Id_articles || favoriteLoading) {
-      return;
-    }
-
-    try {
-      setFavoriteLoading(true);
-
-      console.log(
-        "Article favori :",
-        currentArticle.Id_articles,
-      );
-
-      if (isFavorite) {
-        await removeFavorite(currentArticle.Id_articles);
-        setIsFavorite(false);
-      } else {
-        await addFavorite(currentArticle.Id_articles);
-        setIsFavorite(true);
+  const handleFavorite =
+    async () => {
+      if (
+        !currentArticle?.Id_articles ||
+        favoriteLoading
+      ) {
+        return;
       }
-    } catch (err) {
-      console.error(
-        "Erreur gestion favori :",
-        err.response?.data || err,
-      );
-    } finally {
-      setFavoriteLoading(false);
-    }
-  };
+
+      try {
+        setFavoriteLoading(true);
+
+        console.log(
+          "Article favori :",
+          currentArticle.Id_articles,
+        );
+
+        if (isFavorite) {
+          await removeFavorite(
+            currentArticle.Id_articles,
+          );
+
+          setIsFavorite(false);
+        } else {
+          await addFavorite(
+            currentArticle.Id_articles,
+          );
+
+          setIsFavorite(true);
+        }
+      } catch (err) {
+        console.error(
+          "Erreur gestion favori :",
+          err.response?.data || err,
+        );
+      } finally {
+        setFavoriteLoading(false);
+      }
+    };
 
   const handleSwap = () => {
     if (!currentArticle) {
@@ -148,12 +195,7 @@ function Home() {
   };
 
   return (
-    <section className="space-y-6">
-      <HomeFilters
-        onApply={handleFiltersApply}
-        initialFilters={filters}
-      />
-
+    <section className="relative h-full min-h-0 space-y-6 overflow-hidden">
       {loading && (
         <div className="flex min-h-107.5 items-center justify-center rounded-3xl bg-white text-sm text-muted shadow-sm ring-1 ring-gray-100">
           Chargement des articles...
@@ -173,17 +215,23 @@ function Home() {
               ref={swipeStackRef}
               articles={articles}
               onSwipe={handleSwipe}
-              onArticleChange={handleArticleChange}
+              onArticleChange={
+                handleArticleChange
+              }
             />
           </div>
 
           {articles.length > 0 && (
             <SwipeActions
               onPass={handlePass}
-              onFavorite={handleFavorite}
+              onFavorite={
+                handleFavorite
+              }
               onSwap={handleSwap}
               isFavorite={isFavorite}
-              favoriteLoading={favoriteLoading}
+              favoriteLoading={
+                favoriteLoading
+              }
             />
           )}
         </>
@@ -192,9 +240,15 @@ function Home() {
       <ProposalModal
         article={currentArticle}
         isOpen={isProposalModalOpen}
-        onClose={() => setIsProposalModalOpen(false)}
+        onClose={() =>
+          setIsProposalModalOpen(false)
+        }
         onSuccess={(proposal) => {
-          console.log("Proposition créée :", proposal);
+          console.log(
+            "Proposition créée :",
+            proposal,
+          );
+
           swipeStackRef.current?.next();
         }}
       />

@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
 const startServer = async () => {
   await connectDatabase();
 
-  httpServer.listen(PORT, () => {
+  httpServer.listen(PORT,"0.0.0.0", () => {
     console.log(`🚀 StudentSwap API : http://localhost:${PORT}`);
     console.log(`🔌 Socket.IO actif`);
   });
